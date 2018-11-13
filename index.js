@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 
-var session = require('express-session');
+//var session = require('express-session');
 var bodyParser = require('body-parser');
 
 
@@ -9,14 +9,14 @@ app.use(express.static('public'));
 /**
  * Session above all
  */
-app.use(session({
+/*app.use(session({
     secret: 'keyboard cat',
     cookie: {
         maxAge: 60000
     },
     resave: true,
     saveUninitialized: false
-}));
+}));*/
 
 /**
  * Parse parameters in POST
@@ -45,21 +45,18 @@ app.use(function (req, res, next) {
 /**
  * Include all the routes
  */
-require('./routes/outside')(app);
-require('./routes/drink')(app);
-require('./routes/cocktail')(app);
-require('./routes/sale')(app);
+require('./routes/user')(app);
+require('./routes/client')(app);
+require('./routes/waiter')(app);
+require('./routes/admin')(app);
 
-//Use the static MW
-//app.use(express.static('static'));
 
 /**
  * Standard error handler
  */
 app.use(function (err, req, res, next) {
     res.status(500).send('Something went wrong! :(');
-
-    //Flush out the stack to the console
+    
     console.error(err.stack);
 });
 
