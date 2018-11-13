@@ -1,9 +1,11 @@
+const https = require('https');
 var express = require('express');
 var app = express();
 
 //var session = require('express-session');
 var bodyParser = require('body-parser');
-
+const jwt = require('./middlewares/helpers/jwt');
+const errorHandler = require('./middlewares/helpers/error-handler');
 
 app.use(express.static('public'));
 /**
@@ -40,7 +42,8 @@ app.use(function (req, res, next) {
     return next();
 });
 
-
+// use JWT auth to secure the api
+//app.use(jwt());
 
 /**
  * Include all the routes
@@ -54,12 +57,15 @@ require('./routes/admin')(app);
 /**
  * Standard error handler
  */
-app.use(function (err, req, res, next) {
-    res.status(500).send('Something went wrong! :(');
-    
-    console.error(err.stack);
-});
+app.use(errorHandler);
 
 var server = app.listen(3000, function () {
     console.log("listening on: 3000");
 });
+
+
+/*
+const httpsServer = https.createServer({}, app);
+httpsServer.listen(443, () => {
+    console.log('HTTPS Server running on port 443');
+});*/
