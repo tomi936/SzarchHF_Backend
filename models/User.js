@@ -1,6 +1,7 @@
 var Schema = require('mongoose').Schema;
 var db = require('../config/db');
 
+const Role = { Client : 0, Waiter : 1, Admin:3}
 
 var User = db.model('Users', {
     email: Schema.Types.String,
@@ -11,4 +12,8 @@ var User = db.model('Users', {
     loyaltyPoints: Schema.Types.Number
 });
 
-module.exports = User;
+module.exports = {
+    User : User,
+    Role: Role
+
+}
