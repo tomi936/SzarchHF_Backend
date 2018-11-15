@@ -14,7 +14,13 @@ var finishOrderMW = require('../middlewares/order/finishOrder');
 var getReceiptMW = require('../middlewares/order/getReceipt');
 var responseJSON = require('../middlewares/generic/responseJSON');
 
-var userModel = require('../models/user');
+var userModel = require('../models/User');
+var Role = require('../models/Roles');
+var tableModel = require('../models/Table');
+var reservationModel = require('../models/Reservation');
+var orderModel = require('../models/Order');
+var menuItemModel = require('../models/MenuItems');
+var cartModel = require('../models/Cart');
 var tableDto = require('../dtos/TableDto');
 var reservationDto = require('../dtos/ReservationDto');
 var orderDto = require('../dtos/OrderDto');
@@ -26,6 +32,11 @@ module.exports = function(app){
 
     var objectRepository = {
         userModel: userModel,
+        tableModel:tableModel,
+        reservationModel:reservationModel,
+        orderModel:orderModel,
+        menuItemModel:menuItemModel,
+        cartModel:cartModel,
         tableDto: tableDto,
         reservationDto: reservationDto,
         orderDto:orderDto,
@@ -36,21 +47,21 @@ module.exports = function(app){
 
     //get waiter reservations
     app.route("/waiter/reservation").get(
-        authMW(objectRepository,userModel.Role.Waiter, true),
+        authMW(objectRepository,Role.Waiter, true),
         listReservationsMW(objectRepository),
         responseJSON(objectRepository)
     );
 
     //make reservation by waiter
     app.route("/waiter/reservation").post(
-        authMW(objectRepository,userModel.Role.Waiter, true),
+        authMW(objectRepository,Role.Waiter, true),
         validateReservationMW(objectRepository),
         createReservationMW(objectRepository),
         );
 
     //update reservation
     app.route("/waiter/reservation").put(
-        authMW(objectRepository,userModel.Role.Waiter, true),
+        authMW(objectRepository,Role.Waiter, true),
         getReservationMW(objectRepository),
         validateReservationMW(objectRepository),
         updateReservationMW(objectRepository),
@@ -58,56 +69,56 @@ module.exports = function(app){
 
     //delete reservation by waiter
     app.route("/waiter/reservation/:reservationId").delete(
-        authMW(objectRepository,userModel.Role.Waiter, true),
+        authMW(objectRepository,Role.Waiter, true),
         getReservationMW(objectRepository),
         deleteReservationMW(objectRepository)
     );
 
     //get waiter orders
     app.route("/waiter/order").get(
-        authMW(objectRepository,userModel.Role.Waiter, true),
+        authMW(objectRepository,Role.Waiter, true),
         listOrdersMW(objectRepository),
         responseJSON(objectRepository)
     );
 
     //get waiter order by table
     app.route("/waiter/order-by-table/:tableId").get(
-        authMW(objectRepository,userModel.Role.Waiter, true),
+        authMW(objectRepository,Role.Waiter, true),
         getOrderByTableMW(objectRepository),
         responseJSON(objectRepository)
     );
 
     //update order by table
     app.route("/waiter/order-by-table/:tableId").put(
-        authMW(objectRepository,userModel.Role.Waiter, true),
+        authMW(objectRepository,Role.Waiter, true),
         getOrderByTableMW(objectRepository),
         updateOrdernMW(objectRepository)
     );
 
     //finish order
     app.route("/waiter/order-by-id/:orderId/finish").get(
-        authMW(objectRepository,userModel.Role.Waiter, true),
+        authMW(objectRepository,Role.Waiter, true),
         getOrderByIdMW(objectRepository),
         finishOrderMW(objectRepository)
     );
 
     //get order receipt
     app.route("/waiter/order-by-id/:orderId/receipt").get(
-        authMW(objectRepository,userModel.Role.Waiter, true),
+        authMW(objectRepository,Role.Waiter, true),
         getOrderByIdMW(objectRepository),
         getReceiptMW(objectRepository)
     );
 
     //get waiter order
     app.route("/waiter/order-by-id/:orderId").get(
-        authMW(objectRepository,userModel.Role.Waiter, true),
+        authMW(objectRepository,Role.Waiter, true),
         getOrderByIdMW(objectRepository),
         responseJSON(objectRepository)
     );
 
     //delete order by waiter
     app.route("/waiter/order-by-id/:orderId").delete(
-        authMW(objectRepository,userModel.Role.Waiter, true),
+        authMW(objectRepository,Role.Waiter, true),
         getOrderByIdMW(objectRepository),
         deleteOrderMW(objectRepository)
     );

@@ -8,7 +8,8 @@ var getSelfUserMW = require('../middlewares/user/getSelfUser');
 var updateUserMW = require('../middlewares/user/updateUser');
 var responseJSON = require('../middlewares/generic/responseJSON');
 
-var userModel = require('../models/user');
+var userModel = require('../models/User');
+var Role = require('../models/Roles');
 var loginDto = require('../dtos/LoginDto');
 var clientRegisterDto = require('../dtos/ClientRegisterDto');
 
@@ -34,14 +35,14 @@ module.exports = function(app){
 
     //Edit profile
     app.route("/user/").put(
-        authMW(objectRepository,userModel.Role.Client, false),
+        authMW(objectRepository,Role.Client, false),
         getUserMW(objectRepository),
         updateUserMW(objectRepository)
     );
 
     //Get profile
     app.route("/user/").get(
-        authMW(objectRepository,userModel.Role.Client,false),
+        authMW(objectRepository,Role.Client,false),
         getSelfUserMW(objectRepository),
         responseJSON(objectRepository)
         );

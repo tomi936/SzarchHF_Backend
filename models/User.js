@@ -1,9 +1,7 @@
 var Schema = require('mongoose').Schema;
 var db = require('../config/db');
 
-const Role = { Client : 0, Waiter : 1, Admin:3}
-
-var User = db.model('Users', {
+var User = db.model('Userrs', {
     email: Schema.Types.String,
     name: Schema.Types.String,
     password: Schema.Types.String,
@@ -12,8 +10,4 @@ var User = db.model('Users', {
     loyaltyPoints: Schema.Types.Number
 });
 
-module.exports = {
-    User : User,
-    Role: Role
-
-};
+module.exports = User;

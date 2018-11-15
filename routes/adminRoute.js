@@ -6,7 +6,8 @@ var getWaiterMW = require('../middlewares/admin/getWaiter');
 var deleteWaiterMW = require('../middlewares/admin/deleteWaiter');
 var responseJSON = require('../middlewares/generic/responseJSON');
 
-var userModel = require('../models/user');
+var userModel = require('../models/User');
+var Role = require('../models/Roles');
 
 module.exports = function(app){
     var objectRepository = {
@@ -15,21 +16,21 @@ module.exports = function(app){
 
     //get waiters
     app.route("/admin/waiter").get(
-        authMW(objectRepository,userModel.Role.Admin, true),
+        authMW(objectRepository,Role.Admin, true),
         listWaitersMW(objectRepository),
         responseJSON(objectRepository)
     );
 
     //register waiter
     app.route("/admin/waiter").post(
-        authMW(objectRepository,userModel.Role.Admin, true),
+        authMW(objectRepository,Role.Admin, true),
         checkIfUserRegisteredMW(objectRepository),
         addWaiterMW(objectRepository)
     );
 
     //delete waiter
     app.route("/admin/waiter/:userId").delete(
-        authMW(objectRepository,userModel.Role.Admin, true),
+        authMW(objectRepository,Role.Admin, true),
         getWaiterMW(objectRepository),
         deleteWaiterMW(objectRepository)
     );
