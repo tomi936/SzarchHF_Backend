@@ -1,11 +1,10 @@
-var mainRedirectMW = require('../middlewares/generic/mainRedirect');
 var inverseAuthMW = require('../middlewares/generic/inverseAuth');
 var authMW = require('../middlewares/generic/Auth');
 var userLoginMW = require('../middlewares/user/userLogin');
 var registerUserMW = require('../middlewares/user/registerUser');
 var checkIfUserRegisteredMW = require('../middlewares/user/checkIfUserRegistered');
 var getUserMW = require('../middlewares/user/getUser');
-var getSelfUser = require('../middlewares/user/getSelfUser');
+var getSelfUserMW = require('../middlewares/user/getSelfUser');
 var updateUserMW = require('../middlewares/user/updateUser');
 var responseJSON = require('../middlewares/generic/responseJSON');
 
@@ -43,7 +42,7 @@ module.exports = function(app){
     //Get profile
     app.route("/user/").get(
         authMW(objectRepository,userModel.Role.Client,false),
-        getSelfUser(objectRepository),
+        getSelfUserMW(objectRepository),
         responseJSON(objectRepository)
         );
 };

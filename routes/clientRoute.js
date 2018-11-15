@@ -1,7 +1,4 @@
-var inverseAuthMW = require('../middlewares/generic/inverseAuth');
 var authMW = require('../middlewares/generic/Auth');
-var getUserMW = require('../middlewares/user/getUser');
-var getSelfUser = require('../middlewares/user/getSelfUser');
 var listFreeTablesMW = require('../middlewares/reservation/listFreeTables');
 var listReservationsMW = require('../middlewares/reservation/listReservations');
 var getReservationMW = require('../middlewares/reservation/getReservation');
@@ -104,7 +101,7 @@ module.exports = function(app){
     // update cart
     app.route("/client/cart").put(
         authMW(objectRepository, userModel.Role.Client, true),
-        updateOrdernMW(objectRepository)
+        updateCartMW(objectRepository)
     );
 
 
