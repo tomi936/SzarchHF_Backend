@@ -4,7 +4,8 @@ var app = express();
 
 //var session = require('express-session');
 var bodyParser = require('body-parser');
-const jwt = require('./middlewares/helpers/jwt');
+const sanitize = require('sanitize');
+const jwtMW = require('./middlewares/helpers/jwt');
 const errorHandler = require('./middlewares/helpers/error-handler');
 
 app.use(express.static('public'));
@@ -29,7 +30,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-
+app.use(sanitize.middleware);
+app.use(jwtMW);
 
 
 

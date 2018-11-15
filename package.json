@@ -6,6 +6,7 @@
     "start": "nodemon ./index.js"
   },
   "dependencies": {
+    "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
@@ -15,9 +16,11 @@
     "http-errors": "~1.6.2",
     "https": "^1.0.0",
     "jsonwebtoken": "^8.3.0",
+    "mongo-sanitize": "^1.0.0",
     "mongoose": "^5.3.11",
     "morgan": "~1.9.0",
-    "npm": "^6.4.1"
+    "npm": "^6.4.1",
+    "sanitize": "^2.1.0"
   },
   "main": "index.js",
   "devDependencies": {
