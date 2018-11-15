@@ -15,7 +15,8 @@ var getCartMW = require('../middlewares/order/getCart');
 var updateCartMW = require('../middlewares/order/updateCart');
 var responseJSON = require('../middlewares/generic/responseJSON');
 
-var userModel = require('../models/user');
+var userModel = require('../models/User');
+var tableModel = require('../models/Table');
 var tableDto = require('../dtos/TableDto');
 var reservationDto = require('../dtos/ReservationDto');
 var orderDto = require('../dtos/OrderDto');

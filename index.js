@@ -48,10 +48,10 @@ app.use(function (req, res, next) {
 /**
  * Include all the routes
  */
-require('./routes/user')(app);
-require('./routes/client')(app);
-require('./routes/waiter')(app);
-require('./routes/admin')(app);
+require('./routes/userRoute')(app);
+require('./routes/clientRoute')(app);
+require('./routes/waiterRoute')(app);
+require('./routes/adminRoute')(app);
 
 
 /**

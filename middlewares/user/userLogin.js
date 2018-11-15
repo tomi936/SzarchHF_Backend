@@ -4,7 +4,7 @@ const users = [{ id: 1, username: 'test', password: 'test', firstName: 'Test', l
 
 module.exports = function (objectrepository) {
 
-    var UserModel = requireOption(objectrepository, 'UserModel');
+    var UserModel = requireOption(objectrepository, 'userModel');
 
     return function (req, res, next) {
         const user = users.find(u => u.username === username && u.password === password);
