@@ -9,13 +9,13 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
         console.log("getSelfUser");
 
-        UserModel.findOne({id:req.user.id}, function (err,result) {
+        UserModel.findOne({_id:req.user.id}, function (err,result) {
             console.log(result);
             if(err || !result)
             {
                 res.tpl.error = "Can't find user";
                 console.log(res.tpl.error);
-                res.status(400).json(res.tpl.error);
+                return res.status(400).json(res.tpl.error);
             }
 
             result = result.toObject();

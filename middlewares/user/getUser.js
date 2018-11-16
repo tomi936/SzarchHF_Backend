@@ -7,7 +7,7 @@ module.exports = function (objectrepository) {
 
     return function (req, res, next) {
         console.log("getUser");
-        UserModel.findOne({id:req.user.id}, function (err,result) {
+        UserModel.findOne({_id:req.user.id}, function (err,result) {
             if(err || typeof result === "undefined")
             {
                 res.tpl.error = "Can't find user";
