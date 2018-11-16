@@ -3,7 +3,8 @@ var db = require('../config/db');
 
 
 var MenuItems = db.model('MenuItems', {
-    seats: Schema.Types.Number
+    name: Schema.Types.String,
+    price:Schema.Types.Number
 });
 
 module.exports = MenuItems;

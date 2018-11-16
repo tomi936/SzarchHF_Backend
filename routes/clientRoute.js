@@ -28,22 +28,24 @@ var orderDto = require('../dtos/OrderDto');
 var orderRequestDto = require('../dtos/OrderRequestDto');
 var ratingDto = require('../dtos/RatingDto');
 var cartItemDto = require('../dtos/CartItemDto');
+var menuItemDto = require('../dtos/MenuItemDto');
 
-module.exports = function(app){
+module.exports = function (app) {
 
     var objectRepository = {
         userModel: userModel,
-        tableModel:tableModel,
-        reservationModel:reservationModel,
-        orderModel:orderModel,
-        menuItemModel:menuItemModel,
-        cartModel:cartModel,
+        tableModel: tableModel,
+        reservationModel: reservationModel,
+        orderModel: orderModel,
+        menuItemModel: menuItemModel,
+        cartModel: cartModel,
         tableDto: tableDto,
         reservationDto: reservationDto,
-        orderDto:orderDto,
-        orderRequestDto:orderRequestDto,
+        orderDto: orderDto,
+        orderRequestDto: orderRequestDto,
         ratingDto: ratingDto,
-        cartItemDto:cartItemDto
+        cartItemDto: cartItemDto,
+        menuItemDto: menuItemDto
     };
 
     //Search free table
@@ -64,14 +66,20 @@ module.exports = function(app){
     app.route("/client/reservation").post(
         authMW(objectRepository, Role.Client, true),
         validateReservationMW(objectRepository),
-        createReservationMW(objectRepository)
+        createReservationMW(objectRepository),
+        function (req, res, next) {
+            return res.sendStatus(200);
+        }
     );
 
     //delete reservation by client
     app.route("/client/reservation/:reservationId").delete(
         authMW(objectRepository, Role.Client, true),
         getReservationMW(objectRepository),
-        deleteReservationMW(objectRepository)
+        deleteReservationMW(objectRepository),
+        function (req, res, next) {
+            return res.sendStatus(200);
+        }
     );
 
     //get orders
@@ -85,14 +93,20 @@ module.exports = function(app){
     app.route("/client/order").post(
         authMW(objectRepository, Role.Client, true),
         updateOrdernMW(objectRepository),
-        finishOrderMW(objectRepository)
+        finishOrderMW(objectRepository),
+        function (req, res, next) {
+            return res.sendStatus(200);
+        }
     );
 
     //rate order
     app.route("/client/rate").post(
         authMW(objectRepository, Role.Client, true),
         getOrderByIdMW(objectRepository),
-        rateOrderMW(objectRepository)
+        rateOrderMW(objectRepository),
+        function (req, res, next) {
+            return res.sendStatus(200);
+        }
     );
 
     //get menu
@@ -112,7 +126,11 @@ module.exports = function(app){
     // update cart
     app.route("/client/cart").put(
         authMW(objectRepository, Role.Client, true),
-        updateCartMW(objectRepository)
+        getCartMW(objectRepository),
+        updateCartMW(objectRepository),
+        function (req, res, next) {
+            return res.sendStatus(200);
+        }
     );
 
 

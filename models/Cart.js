@@ -4,13 +4,12 @@ var db = require('../config/db');
 
 var Cart = db.model('Carts', {
     time: Schema.Types.Date,
-    sum: Schema.Types.Number,
     _clientId: {
         type: Schema.Types.ObjectId,
         ref: 'Users'
     },
     orderItems: [{
-        _menuId: {
+        _menuItemId: {
             type: Schema.Types.ObjectId,
             ref: 'Menus'
         },

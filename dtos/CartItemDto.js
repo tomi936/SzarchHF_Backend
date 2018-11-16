@@ -32,6 +32,9 @@
     if (data) {
       obj = obj || new CarItemDto();
 
+      if (data.hasOwnProperty('_menuItemId')) {
+        obj['menuItemId'] = converter.convertToType(data['_menuItemId'], 'String');
+      }
       if (data.hasOwnProperty('menuItemId')) {
         obj['menuItemId'] = converter.convertToType(data['menuItemId'], 'String');
       }
