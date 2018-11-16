@@ -5,7 +5,7 @@
    * @version 1.0.0
    */
 
-  var converter = require('../middlewares/helpers/typeConverter');
+  var converter = require('../helpers/typeConverter');
 
   /**
    * Constructs a new <code>ClientDto</code>.
@@ -46,9 +46,9 @@
       if (data.hasOwnProperty('address')) {
         obj['address'] = converter.convertToType(data['address'], 'String');
       }
-      if (data.hasOwnProperty('password')) {
+      /*if (data.hasOwnProperty('password')) {
         obj['password'] = converter.convertToType(data['password'], 'String');
-      }
+      }*/
       if (data.hasOwnProperty('loyaltyPoints')) {
         obj['loyaltyPoints'] = converter.convertToType(data['loyaltyPoints'], 'Number');
       }
@@ -71,7 +71,7 @@
   /**
    * @member {String} password
    */
-  ClientDto.prototype['password'] = undefined;
+  //ClientDto.prototype['password'] = undefined;
   /**
    * @member {Number} loyaltyPoints
    */

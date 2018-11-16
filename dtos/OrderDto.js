@@ -5,7 +5,7 @@
    * @version 1.0.0
    */
 
-  var converter = require('../middlewares/helpers/typeConverter');
+  var converter = require('../helpers/typeConverter');
 
   /**
    * Constructs a new <code>OrderDto</code>.
