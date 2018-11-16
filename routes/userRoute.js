@@ -11,13 +11,18 @@ var responseJSON = require('../middlewares/generic/responseJSON');
 var userModel = require('../models/User');
 var Role = require('../models/Roles');
 var loginDto = require('../dtos/LoginDto');
+var userDto = require('../dtos/UserDto');
 var clientRegisterDto = require('../dtos/ClientRegisterDto');
+var clientDto = require('../dtos/ClientDto');
 
 module.exports = function(app){
     var objectRepository = {
         userModel: userModel,
         loginDto: loginDto,
-        clientRegisterDto: clientRegisterDto
+        userDto:userDto,
+        clientRegisterDto: clientRegisterDto,
+        clientDto:clientDto,
+        role:Role
     };
     //Login
     app.route("/user/login").post(
@@ -27,17 +32,23 @@ module.exports = function(app){
     );
 
     //Registration
-    app.route("/user/").post(
+    app.route("/user/register").post(
         inverseAuthMW(objectRepository ),
         checkIfUserRegisteredMW(objectRepository),
-        registerUserMW(objectRepository)
+        registerUserMW(objectRepository),
+        function (req,res,next) {
+            res.sendStatus(200);
+        }
     );
 
     //Edit profile
     app.route("/user/").put(
         authMW(objectRepository,Role.Client, false),
         getUserMW(objectRepository),
-        updateUserMW(objectRepository)
+        updateUserMW(objectRepository),
+        function (req,res,next) {
+            res.sendStatus(200);
+        }
     );
 
     //Get profile
@@ -45,5 +56,5 @@ module.exports = function(app){
         authMW(objectRepository,Role.Client,false),
         getSelfUserMW(objectRepository),
         responseJSON(objectRepository)
-        );
+    );
 };

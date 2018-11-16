@@ -1,41 +1,74 @@
-var createError = require('http-errors');
+const https = require('https');
 var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-
-var indexRouter = require('./index');
-var usersRouter = require('./routes/users');
-
 var app = express();
+const expressJwt = require('express-jwt');
+//var session = require('express-session');
+var bodyParser = require('body-parser');
+const sanitize = require('sanitize');
+const jwt = require('./helpers/jwt');
+const errorHandler = require('./helpers/error-handler');
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.use(express.static('public'));
+/**
+ * Session above all
+ */
+/*app.use(session({
+    secret: 'keyboard cat',
+    cookie: {
+        maxAge: 60000
+    },
+    resave: true,
+    saveUninitialized: false
+}));*/
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+/**
+ * Parse parameters in POST
+ */
+// for parsing application/json
+app.use(bodyParser.json());
+// for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(sanitize.middleware);
+app.use(jwt());
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+
+/**
+ * Let's creat the .tpl and .error on the res object
+ */
+app.use(function (req, res, next) {
+    res.tpl = {};
+    res.tpl.error = [];
+    res.tpl.resObj = undefined;
+    return next();
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// use JWT auth to secure the api
+//app.use(jwt());
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+/**
+ * Include all the routes
+ */
+require('./routes/userRoute')(app);
+require('./routes/clientRoute')(app);
+require('./routes/waiterRoute')(app);
+require('./routes/adminRoute')(app);
+
+
+/**
+ * Standard error handler
+ */
+app.use(errorHandler);
+
+var server = app.listen(3000, function () {
+    console.log("listening on: 3000");
 });
 
-module.exports = app;
+
+/*
+const httpsServer = https.createServer({}, app);
+httpsServer.listen(443, () => {
+    console.log('HTTPS Server running on port 443');
+});*/

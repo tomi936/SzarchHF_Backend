@@ -26,17 +26,18 @@ module.exports = function (objectrepository, requiredLevel, isExclusive) {
               role : Number(decoded.role)
           };*/
 
-      if(typeof res.user === "undefined")
-          res.sendStatus(401);
+      console.log(req.user);
+      if(typeof req.user === "undefined")
+          return res.sendStatus(401);
 
       if(isExclusive)
       {
-          if(res.tpl.user.role !== requiredLevel)
+          if(req.user.role !== requiredLevel)
               return res.sendStatus(401);
       }
       else
       {
-          if(res.tpl.user.role < requiredLevel)
+          if(req.user.role < requiredLevel)
               return res.sendStatus(401);
       }
       /*});*/

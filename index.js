@@ -1,12 +1,12 @@
 const https = require('https');
 var express = require('express');
 var app = express();
-
+const expressJwt = require('express-jwt');
 //var session = require('express-session');
 var bodyParser = require('body-parser');
 const sanitize = require('sanitize');
-const jwtMW = require('./middlewares/helpers/jwt');
-const errorHandler = require('./middlewares/helpers/error-handler');
+const jwt = require('./helpers/jwt');
+const errorHandler = require('./helpers/error-handler');
 
 app.use(express.static('public'));
 /**
@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(sanitize.middleware);
-app.use(jwtMW);
+app.use(jwt());
 
 
 
@@ -41,6 +41,7 @@ app.use(jwtMW);
 app.use(function (req, res, next) {
     res.tpl = {};
     res.tpl.error = [];
+    res.tpl.resObj = undefined;
     return next();
 });
 
