@@ -21,7 +21,7 @@ module.exports = function (objectrepository) {
                     res.tpl.resObj.push(MenuItemDto.constructFromObject(item.toObject()));
                 });
             }
-            res.tpl.menuItems = resObj;
+            res.tpl.menuItems = res.tpl.resObj;
             return next();
         });
 
