@@ -14,7 +14,7 @@ module.exports = function (objectrepository) {
         else
             whereState={owner : req.user.id};
 
-        OrderModel.find({whereState}).populate("owner").select("-owner.password").exec(function (err,result) {
+        OrderModel.find(whereState).populate("owner").exec(function (err,result) {
             if(err || !result)
             {
                 res.tpl.error = "Can't load menu";
