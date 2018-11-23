@@ -6,6 +6,7 @@
    */
 
   var converter = require('../helpers/typeConverter');
+  var CartItemDto = require('./CartItemDto');
 
   /**
    * Constructs a new <code>OrderDto</code>.
@@ -35,6 +36,9 @@
       if (data.hasOwnProperty('orderId')) {
         obj['orderId'] = converter.convertToType(data['orderId'], 'String');
       }
+      if (data.hasOwnProperty('_id')) {
+        obj['orderId'] = converter.convertToType(data['_id'], 'String');
+      }
       if (data.hasOwnProperty('orderItems')) {
         obj['orderItems'] = converter.convertToType(data['orderItems'], [CartItemDto]);
       }
@@ -47,14 +51,14 @@
       if (data.hasOwnProperty('status')) {
         obj['status'] = converter.convertToType(data['status'], 'String');
       }
-      if (data.hasOwnProperty('tableId')) {
-        obj['tableId'] = converter.convertToType(data['tableId'], 'String');
+      if (data.hasOwnProperty('_tableId')) {
+        obj['_tableId'] = converter.convertToType(data['_tableId'], 'String');
       }
       if (data.hasOwnProperty('type')) {
         obj['type'] = converter.convertToType(data['type'], 'String');
       }
-      if (data.hasOwnProperty('ownerId')) {
-        obj['ownerId'] = converter.convertToType(data['ownerId'], 'String');
+      if (data.hasOwnProperty('_ownerId')) {
+        obj['_ownerId'] = converter.convertToType(data['_ownerId'], 'String');
       }
       if (data.hasOwnProperty('ownerName')) {
         obj['ownerName'] = converter.convertToType(data['ownerName'], 'String');
@@ -95,7 +99,7 @@
   /**
    * @member {String} tableId
    */
-  OrderDto.prototype['tableId'] = undefined;
+  OrderDto.prototype['_tableId'] = undefined;
   /**
    * @member {String} type
    */
@@ -103,7 +107,7 @@
   /**
    * @member {String} ownerId
    */
-  OrderDto.prototype['ownerId'] = undefined;
+  OrderDto.prototype['_ownerId'] = undefined;
   /**
    * @member {String} ownerName
    */

@@ -9,7 +9,7 @@ var Order = db.model('Orders', {
     type: Schema.Types.String,
     rating: Schema.Types.Number,
     discount: Schema.Types.Number,
-    _ownerId: {
+    owner: {
         type: Schema.Types.ObjectId,
         ref: 'Users'
     },
@@ -18,7 +18,7 @@ var Order = db.model('Orders', {
         ref: 'Tables'
     },
     orderItems: [{
-        _menuId: {
+        _menuItemId: {
             type: Schema.Types.ObjectId,
             ref: 'Menus'
         },

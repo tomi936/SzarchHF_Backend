@@ -19,6 +19,7 @@ var Role = require('../models/Roles');
 var tableModel = require('../models/Table');
 var reservationModel = require('../models/Reservation');
 var orderModel = require('../models/Order');
+var orderStatus = require('../models/OrderStatus');
 var menuItemModel = require('../models/MenuItems');
 var cartModel = require('../models/Cart');
 var tableDto = require('../dtos/TableDto');
@@ -35,6 +36,7 @@ module.exports = function(app){
         tableModel:tableModel,
         reservationModel:reservationModel,
         orderModel:orderModel,
+        orderStatus:orderStatus,
         menuItemModel:menuItemModel,
         cartModel:cartModel,
         tableDto: tableDto,
@@ -81,18 +83,18 @@ module.exports = function(app){
         responseJSON(objectRepository)
     );
 
+    //update order
+    app.route("/waiter/order/").put(
+        authMW(objectRepository,Role.Waiter, true),
+        getOrderByIdMW(objectRepository),
+        updateOrdernMW(objectRepository)
+    );
+
     //get waiter order by table
     app.route("/waiter/order-by-table/:tableId").get(
         authMW(objectRepository,Role.Waiter, true),
         getOrderByTableMW(objectRepository),
         responseJSON(objectRepository)
-    );
-
-    //update order by table
-    app.route("/waiter/order-by-table/:tableId").put(
-        authMW(objectRepository,Role.Waiter, true),
-        getOrderByTableMW(objectRepository),
-        updateOrdernMW(objectRepository)
     );
 
     //finish order

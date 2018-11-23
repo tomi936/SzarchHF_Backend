@@ -14,7 +14,7 @@ Converter.convertToType = function(data, type) {
         case 'String':
             return String(data);
         case 'Date':
-            return this.parseDate(String(data));
+            return new Date(String(data));
         case 'Blob':
             return data;
         default:
@@ -55,4 +55,5 @@ Converter.convertToType = function(data, type) {
             }
     }
 };
+
 module.exports = Converter;

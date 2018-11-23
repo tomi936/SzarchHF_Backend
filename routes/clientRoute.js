@@ -20,6 +20,7 @@ var Role = require('../models/Roles');
 var tableModel = require('../models/Table');
 var reservationModel = require('../models/Reservation');
 var orderModel = require('../models/Order');
+var orderStatus = require('../models/OrderStatus');
 var menuItemModel = require('../models/MenuItems');
 var cartModel = require('../models/Cart');
 var tableDto = require('../dtos/TableDto');
@@ -37,6 +38,7 @@ module.exports = function (app) {
         tableModel: tableModel,
         reservationModel: reservationModel,
         orderModel: orderModel,
+        orderStatus:orderStatus,
         menuItemModel: menuItemModel,
         cartModel: cartModel,
         tableDto: tableDto,
@@ -92,6 +94,7 @@ module.exports = function (app) {
     //make order
     app.route("/client/order").post(
         authMW(objectRepository, Role.Client, true),
+        listMenuItemsMW(objectRepository),
         updateOrdernMW(objectRepository),
         finishOrderMW(objectRepository),
         function (req, res, next) {
