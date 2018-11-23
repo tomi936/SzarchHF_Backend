@@ -27,7 +27,7 @@ module.exports = function (objectrepository) {
 
             if (user && bcrypt.compareSync(loginUser.password, user.password)) {
                 //const {password, userWithoutPassword} = user.toObject();
-                const token = jwt.sign({id: user.id, role : user.role, name : user.name},config.secret,{ expiresIn: '1h' });
+                const token = jwt.sign({id: user.id, role : user.role, name : user.name},config.secret,{ expiresIn: '1y' });
                 res.tpl.resObj = {
                     jwt : token
                 };
