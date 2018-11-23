@@ -10,7 +10,7 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
 
         var orderId = null;
-        if(typeof req.body !== "undefined"&& Object.keys(req.body).length === 0 && typeof req.body.orderId !== "undefined")
+        if(typeof req.body !== "undefined"&& Object.keys(req.body).length > 0 && typeof req.body.orderId !== "undefined")
             orderId = req.body.orderId;
 
         if(typeof req.params !== "undefined" && typeof req.params.orderId !== "undefined")
@@ -34,6 +34,7 @@ module.exports = function (objectrepository) {
             res.tpl.resObj={};
             if(result)
             {
+                res.tpl.order=result;
                 var Order = OrderDto.constructFromObject(result.toObject());
                 Order._ownerId = result.owner._id;
                 Order.ownerName = result.owner.name;
