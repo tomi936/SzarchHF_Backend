@@ -43,7 +43,7 @@ module.exports = function (objectrepository) {
         Order.status = OrderStatus.Open;
         Order.discount = sanitize(parseInt(req.body.discount));
         Order.orderItems.splice(0, Order.orderItems.length);
-        
+
         req.body.cart.forEach(function (item) {
             var orderedItem = CartItemDto.constructFromObject(item);
             if (typeof orderedItem.menuItemId === "undefined" || orderedItem.menuItemId.length === 0 ||
@@ -66,6 +66,8 @@ module.exports = function (objectrepository) {
             }
         });
 
+        Order.sum = Order.sum * ((100-Order.discount)/100);
+
         Order.save(function (err) {
             if (err) {
                 res.tpl.error = "Error DB during saving order to DB";
@@ -76,5 +78,5 @@ module.exports = function (objectrepository) {
             return next();
         });
     };
-}
+};
 
