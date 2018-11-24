@@ -33,22 +33,28 @@
     if (data) {
       obj = obj || new UserDto();
 
-      if (data.hasOwnProperty('email')) {
-        obj['email'] = converter.convertToType(data['email'], 'String');
-      }
-      if (data.hasOwnProperty('name')) {
-        obj['name'] = converter.convertToType(data['name'], 'String');
-      }
-      if (data.hasOwnProperty('password')) {
-        obj['password'] = converter.convertToType(data['password'], 'String');
-      }
-      if (data.hasOwnProperty('address')) {
-        obj['address'] = converter.convertToType(data['address'], 'String');
-      }
+        if (data.hasOwnProperty('_id')) {
+            obj['userId'] = converter.convertToType(data['_id'], 'String');
+        }
+        if (data.hasOwnProperty('email')) {
+            obj['email'] = converter.convertToType(data['email'], 'String');
+        }
+        if (data.hasOwnProperty('name')) {
+            obj['name'] = converter.convertToType(data['name'], 'String');
+        }
+        if (data.hasOwnProperty('password')) {
+            obj['password'] = converter.convertToType(data['password'], 'String');
+        }
+        if (data.hasOwnProperty('address')) {
+            obj['address'] = converter.convertToType(data['address'], 'String');
+        }
     }
     return obj;
-  }
-
+  };
+  /**
+   * @member {String} tableId
+   */
+  UserDto.prototype['userId'] = undefined;
   /**
    * @member {String} email
    */
