@@ -19,7 +19,7 @@ module.exports = function (objectrepository) {
             {
                 res.tpl.error = "Can't load menu";
                 console.log(res.tpl.error);
-                return res.status(400).json(res.tpl.error);
+                return res.sendStatus(400);
             }
 
             //console.log(result);

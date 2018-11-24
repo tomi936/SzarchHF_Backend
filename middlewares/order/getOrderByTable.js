@@ -13,7 +13,7 @@ module.exports = function (objectrepository) {
         {
             res.tpl.error = "No tableId";
             console.log(res.tpl.error);
-            return res.status(400).json(res.tpl.error);
+            return res.sendStatus(400);
         }
 
         OrderModel.findOne({_tableId:sanitize(req.params.tableId)}, function (err, result) {

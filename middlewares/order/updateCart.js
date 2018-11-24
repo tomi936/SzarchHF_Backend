@@ -15,8 +15,6 @@ module.exports = function (objectrepository) {
             console.log(res.tpl.error);
             return res.status(400).json(res.tpl.error);
         }
-        console.log(req.body);
-        console.log(req.body.length);
 
         var Cart = null;
 
@@ -54,5 +52,5 @@ module.exports = function (objectrepository) {
             return next();
         });
     };
-}
+};
 
