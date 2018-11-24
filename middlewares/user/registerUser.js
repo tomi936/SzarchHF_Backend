@@ -11,11 +11,11 @@ module.exports = function (objectrepository) {
 
     return function (req, res, next) {
         console.log("RegisterUser");
-        if(typeof req.body === "undefined" )
+        if(typeof req.body === "undefined" || Object.keys(req.body).length === 0)
         {
             res.tpl.error = "New user data is empty";
             console.log(res.tpl.error);
-            res.status(400).json(res.tpl.error);
+            res.sendStatus(400);
         }
         var editedUser = ClientRegisterDto.constructFromObject(req.body);
 
@@ -38,9 +38,7 @@ module.exports = function (objectrepository) {
 
         //TODO: async
         var salt = bcrypt.genSaltSync(10);
-        var hash = bcrypt.hashSync(editedUser.password, salt);
-        newUser.password = hash;
-
+        newUser.password = bcrypt.hashSync(editedUser.password, salt);
 
         newUser.save(function (err) {
             if(err)

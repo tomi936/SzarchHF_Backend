@@ -12,12 +12,20 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
         console.log("loginUser");
 
-        if ((typeof req.body === 'undefined'))
-            return res.sendStatus(400);
+        if ((typeof req.body === 'undefined')|| Object.keys(req.body).length === 0)
+        {
+            res.tpl.error = "Login user data is empty";
+            console.log(res.tpl.error);
+            res.sendStatus(400);
+        }
 
         var loginUser = LoginDto.constructFromObject(req.body);
         if ((typeof loginUser.email === 'undefined') || (typeof loginUser.password === 'undefined'))
-            return res.sendStatus(400);
+        {
+            res.tpl.error = "Login user data is missing";
+            console.log(res.tpl.error);
+            res.sendStatus(400);
+        }
 
         UserModel.findOne({ email: sanitize(loginUser.email)}, function (err, user) {
             console.log(err);

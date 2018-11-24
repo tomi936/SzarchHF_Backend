@@ -1,4 +1,5 @@
 var requireOption = require('../common').requireOption;
+const sanitize = require('mongo-sanitize');
 
 
 module.exports = function (objectrepository) {
@@ -7,12 +8,12 @@ module.exports = function (objectrepository) {
 
     return function (req, res, next) {
         console.log("getUser");
-        UserModel.findOne({_id:req.user.id}, function (err,result) {
-            if(err || typeof result === "undefined")
+        UserModel.findOne({_id:sanitize(req.user.id)}, function (err,result) {
+            if(err)
             {
-                res.tpl.error = "Can't find user";
+                res.tpl.error = "DB Error during getting User";
                 console.log(res.tpl.error);
-                res.status(400).json(res.tpl.error);
+                res.sendStatus(400);
             }
 
             res.tpl.user = result;

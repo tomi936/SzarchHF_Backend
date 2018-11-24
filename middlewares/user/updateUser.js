@@ -13,7 +13,14 @@ module.exports = function (objectrepository) {
         {
             res.tpl.error = "New user data is empty";
             console.log(res.tpl.error);
-            return res.status(400).json(res.tpl.error);
+            return res.sendDtatus(400);
+        }
+
+        if(typeof res.tpl.user === "undefined" || res.tpl.user==null)
+        {
+            res.tpl.error = "Can not find user";
+            console.log(res.tpl.error);
+            return res.sendStatus(400);
         }
         console.log(req.body);
         console.log(req.body.name);
@@ -37,9 +44,7 @@ module.exports = function (objectrepository) {
         {
             //TODO: async
             var salt = bcrypt.genSaltSync(10);
-            var hash = bcrypt.hashSync(editedUser.password, salt);
-
-            res.tpl.user.password = hash;
+            res.tpl.user.password = bcrypt.hashSync(editedUser.password, salt);
         }
 
         res.tpl.user.save(function (err) {

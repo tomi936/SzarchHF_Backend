@@ -1,10 +1,11 @@
 module.exports = errorHandler;
 
 function errorHandler(err, req, res, next) {
-    console.log(JSON.stringify(err));
+    console.log("Error: " + JSON.stringify(err));
     if (typeof (err) === 'string') {
         // custom application error
-        return res.status(400).json({ message: err });
+
+        return res.sendStatus(400);
     }
 
     if (err.name === 'UnauthorizedError') {
@@ -13,5 +14,5 @@ function errorHandler(err, req, res, next) {
     }
 
     // default to 500 server error
-    return res.status(500).json({ message: err.message });
+    return res.sendStatus(500);
 }
