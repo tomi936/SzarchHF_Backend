@@ -1,5 +1,6 @@
 var authMW = require('../middlewares/generic/Auth');
 var listFreeTablesMW = require('../middlewares/reservation/listFreeTables');
+var getTablesMW = require('../middlewares/reservation/getTables');
 var listReservationsMW = require('../middlewares/reservation/listReservations');
 var getReservationMW = require('../middlewares/reservation/getReservation');
 var createReservationMW = require('../middlewares/reservation/createReservation');
@@ -21,6 +22,7 @@ var tableModel = require('../models/Table');
 var reservationModel = require('../models/Reservation');
 var orderModel = require('../models/Order');
 var orderStatus = require('../models/OrderStatus');
+var reservationStatus = require('../models/ReservationStatus');
 var menuItemModel = require('../models/MenuItems');
 var cartModel = require('../models/Cart');
 var tableDto = require('../dtos/TableDto');
@@ -37,6 +39,7 @@ module.exports = function (app) {
         userModel: userModel,
         tableModel: tableModel,
         reservationModel: reservationModel,
+        reservationStatus:reservationStatus,
         orderModel: orderModel,
         orderStatus:orderStatus,
         menuItemModel: menuItemModel,
@@ -47,12 +50,14 @@ module.exports = function (app) {
         orderRequestDto: orderRequestDto,
         ratingDto: ratingDto,
         cartItemDto: cartItemDto,
-        menuItemDto: menuItemDto
+        menuItemDto: menuItemDto,
+        Role:Role
     };
 
     //Search free table
     app.route("/client/searchForTable").get(
         authMW(objectRepository, Role.Client, false),
+        getTablesMW(objectRepository),
         listFreeTablesMW(objectRepository),
         responseJSON(objectRepository)
     );
@@ -67,6 +72,7 @@ module.exports = function (app) {
     //Make reservation
     app.route("/client/reservation").post(
         authMW(objectRepository, Role.Client, true),
+        getTablesMW(objectRepository),
         validateReservationMW(objectRepository),
         createReservationMW(objectRepository),
         function (req, res, next) {

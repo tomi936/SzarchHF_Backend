@@ -31,8 +31,8 @@
     if (data) {
       obj = obj || new TableDto();
 
-      if (data.hasOwnProperty('tableId')) {
-        obj['tableId'] = converter.convertToType(data['tableId'], 'String');
+      if (data.hasOwnProperty('_id')) {
+        obj['tableId'] = converter.convertToType(data['_id'], 'String');
       }
       if (data.hasOwnProperty('seats')) {
         obj['seats'] = converter.convertToType(data['seats'], 'Number');

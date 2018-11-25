@@ -72,7 +72,7 @@ module.exports = function (objectrepository) {
             if (err) {
                 res.tpl.error = "Error DB during saving order to DB";
                 console.log(res.tpl.error);
-                return res.status(500).json(res.tpl.error);
+                return res.sendStatus(500);
             }
 
             return next();

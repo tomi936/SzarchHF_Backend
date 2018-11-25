@@ -18,6 +18,7 @@ var userModel = require('../models/User');
 var Role = require('../models/Roles');
 var tableModel = require('../models/Table');
 var reservationModel = require('../models/Reservation');
+var reservationStatus = require('../models/ReservationStatus');
 var orderModel = require('../models/Order');
 var orderStatus = require('../models/OrderStatus');
 var menuItemModel = require('../models/MenuItems');
@@ -35,6 +36,7 @@ module.exports = function(app){
         userModel: userModel,
         tableModel:tableModel,
         reservationModel:reservationModel,
+        reservationStatus:reservationStatus,
         orderModel:orderModel,
         orderStatus:orderStatus,
         menuItemModel:menuItemModel,
@@ -44,7 +46,8 @@ module.exports = function(app){
         orderDto:orderDto,
         orderRequestDto:orderRequestDto,
         ratingDto: ratingDto,
-        cartItemDto:cartItemDto
+        cartItemDto:cartItemDto,
+        Role:Role
     };
 
     //get waiter reservations

@@ -2,7 +2,7 @@ var Schema = require('mongoose').Schema;
 var db = require('../config/db');
 
 
-var Order = db.model('Orders', {
+var Order = db.model('orders', {
     time: Schema.Types.Date,
     sum: Schema.Types.Number,
     status: Schema.Types.String,

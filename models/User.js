@@ -1,7 +1,7 @@
 var Schema = require('mongoose').Schema;
 var db = require('../config/db');
 
-var User = db.model('Users', {
+var User = db.model('users', {
     email: Schema.Types.String,
     name: Schema.Types.String,
     password: Schema.Types.String,

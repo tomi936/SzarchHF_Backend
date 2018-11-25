@@ -42,14 +42,14 @@
       if (data.hasOwnProperty('tableId')) {
         obj['tableId'] = converter.convertToType(data['tableId'], 'String');
       }
-      if (data.hasOwnProperty('time')) {
-        obj['time'] = converter.convertToType(data['time'], 'Date');
+      if (data.hasOwnProperty('startTime')) {
+        obj['time'] = converter.convertToType(data['startTime'], 'Date');
       }
-      if (data.hasOwnProperty('duration')) {
-        obj['duration'] = converter.convertToType(data['duration'], 'Number');
+      if (data.hasOwnProperty('endTime') && data.hasOwnProperty('startTime')) {
+        obj['duration'] = converter.convertToType(Math.floor(Math.abs(new Date(data['endTime']) - new Date(data['startTime']))/(1000*60*60)), 'Number');
       }
-      if (data.hasOwnProperty('reservationId')) {
-        obj['reservationId'] = converter.convertToType(data['reservationId'], 'String');
+      if (data.hasOwnProperty('_id')) {
+        obj['reservationId'] = converter.convertToType(data['_id'], 'String');
       }
       if (data.hasOwnProperty('status')) {
         obj['status'] = converter.convertToType(data['status'], 'String');

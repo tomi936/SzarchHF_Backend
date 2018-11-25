@@ -2,7 +2,7 @@ var Schema = require('mongoose').Schema;
 var db = require('../config/db');
 
 
-var Cart = db.model('Carts', {
+var Cart = db.model('carts', {
     time: Schema.Types.Date,
     _clientId: {
         type: Schema.Types.ObjectId,
