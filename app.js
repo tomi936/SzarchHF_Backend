@@ -1,13 +1,18 @@
 const https = require('https');
 var express = require('express');
 var app = express();
-const expressJwt = require('express-jwt');
-//var session = require('express-session');
+const cors = require('cors');
 var bodyParser = require('body-parser');
 const sanitize = require('sanitize');
 const jwt = require('./helpers/jwt');
 const errorHandler = require('./helpers/error-handler');
 
+var corsOptions = {
+    origin: 'http://localhost',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+//app.use(cors(corsOptions));
 app.use(express.static('public'));
 /**
  * Session above all
