@@ -9,14 +9,14 @@ var Reservation = db.model('reservations', {
     status: Schema.Types.String,
     clientId: {
         type: Schema.Types.ObjectId,
-        ref: 'Users'
+        ref: 'users'
     },waiterId: {
         type: Schema.Types.ObjectId,
-        ref: 'Users'
+        ref: 'users'
     },
     tableId: {
         type: Schema.Types.ObjectId,
-        ref: 'Tables'
+        ref: 'tables'
     }
 });
 

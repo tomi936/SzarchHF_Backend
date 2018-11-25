@@ -18,9 +18,10 @@ module.exports = function (objectrepository) {
 
 
         if(!orderId){
-            res.tpl.error = "No orderId";
+            res.tpl.order = null;
+            /*res.tpl.error = "No orderId";
             console.log(res.tpl.error);
-            return res.sendStatus(400);
+            return res.sendStatus(400);*/
         }
 
         OrderModel.findOne({_id:sanitize(orderId)}, function (err, result) {

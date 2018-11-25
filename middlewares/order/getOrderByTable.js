@@ -6,6 +6,7 @@ module.exports = function (objectrepository) {
 
     var OrderModel = requireOption(objectrepository, 'orderModel');
     var OrderDto = requireOption(objectrepository, 'orderDto');
+    var OrderStatus = requireOption(objectrepository, 'orderStatus');
 
     return function (req, res, next) {
 
@@ -16,7 +17,7 @@ module.exports = function (objectrepository) {
             return res.sendStatus(400);
         }
 
-        OrderModel.findOne({_tableId:sanitize(req.params.tableId)}, function (err, result) {
+        OrderModel.findOne({_tableId:sanitize(req.params.tableId), status : OrderStatus.Open}, function (err, result) {
             if(err)
             {
                 res.tpl.error = "DB error during finding table";

@@ -11,7 +11,7 @@ var Cart = db.model('carts', {
     orderItems: [{
         _menuItemId: {
             type: Schema.Types.ObjectId,
-            ref: 'Menus'
+            ref: 'menuItems'
         },
         amount: Schema.Types.Number
     }]

@@ -11,16 +11,16 @@ var Order = db.model('orders', {
     discount: Schema.Types.Number,
     owner: {
         type: Schema.Types.ObjectId,
-        ref: 'Users'
+        ref: 'users'
     },
     _tableId: {
         type: Schema.Types.ObjectId,
-        ref: 'Tables'
+        ref: 'tables'
     },
     orderItems: [{
         _menuItemId: {
             type: Schema.Types.ObjectId,
-            ref: 'Menus'
+            ref: 'menuItems'
         },
         amount: Schema.Types.Number
     }]

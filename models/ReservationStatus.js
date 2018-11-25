@@ -1,3 +1,3 @@
-const ReservationStatus = { Pending : 0, Accepted : 1, Rejected:2};
+const ReservationStatus = { Pending : "Pending", Accepted : "Accepted", Rejected:"Rejected"};
 
 module.exports = ReservationStatus;

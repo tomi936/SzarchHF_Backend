@@ -62,6 +62,9 @@ module.exports = function(app){
         authMW(objectRepository,Role.Waiter, true),
         validateReservationMW(objectRepository),
         createReservationMW(objectRepository),
+        function (req, res, next) {
+            return res.sendStatus(200);
+        }
         );
 
     //update reservation
@@ -70,13 +73,19 @@ module.exports = function(app){
         getReservationMW(objectRepository),
         validateReservationMW(objectRepository),
         updateReservationMW(objectRepository),
+        function (req, res, next) {
+            return res.sendStatus(200);
+        }
     );
 
     //delete reservation by waiter
     app.route("/waiter/reservation/:reservationId").delete(
         authMW(objectRepository,Role.Waiter, true),
         getReservationMW(objectRepository),
-        deleteReservationMW(objectRepository)
+        deleteReservationMW(objectRepository),
+        function (req, res, next) {
+            return res.sendStatus(200);
+        }
     );
 
     //get waiter orders
@@ -90,7 +99,10 @@ module.exports = function(app){
     app.route("/waiter/order/").put(
         authMW(objectRepository,Role.Waiter, true),
         getOrderByIdMW(objectRepository),
-        updateOrdernMW(objectRepository)
+        updateOrdernMW(objectRepository),
+        function (req, res, next) {
+            return res.sendStatus(200);
+        }
     );
 
     //get waiter order by table
@@ -104,7 +116,10 @@ module.exports = function(app){
     app.route("/waiter/order-by-id/:orderId/finish").get(
         authMW(objectRepository,Role.Waiter, true),
         getOrderByIdMW(objectRepository),
-        finishOrderMW(objectRepository)
+        finishOrderMW(objectRepository),
+        function (req, res, next) {
+            return res.sendStatus(200);
+        }
     );
 
     //get order receipt
@@ -125,7 +140,10 @@ module.exports = function(app){
     app.route("/waiter/order-by-id/:orderId").delete(
         authMW(objectRepository,Role.Waiter, true),
         getOrderByIdMW(objectRepository),
-        deleteOrderMW(objectRepository)
+        deleteOrderMW(objectRepository),
+        function (req, res, next) {
+            return res.sendStatus(200);
+        }
     );
 
 };

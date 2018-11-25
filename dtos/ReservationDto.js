@@ -52,6 +52,7 @@
         obj['reservationId'] = converter.convertToType(data['_id'], 'String');
       }
       if (data.hasOwnProperty('status')) {
+
         obj['status'] = converter.convertToType(data['status'], 'String');
       }
       if (data.hasOwnProperty('personNumber')) {

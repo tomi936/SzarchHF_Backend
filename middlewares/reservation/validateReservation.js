@@ -56,16 +56,23 @@ module.exports = function (objectrepository) {
             return res.sendStatus(400);
         }
 
+        var Reservation = null;
 
-        res.tpl.reservation = null;
-        var Reservation = new ReservationModel();
-        Reservation.clientId = req.user.id;
+        if(typeof res.tpl.reservation === "undefined" || res.tpl.reservation == null)
+        {
+            res.tpl.reservation = null;
+            Reservation = new ReservationModel();
+            Reservation.clientId = req.user.id;
+            Reservation.status = ReservationStatus.Pending;
+            Reservation.waiterId = null;
+        }
+        else
+            Reservation = res.tpl.reservation;
+
         Reservation.startTime = new Date(req.body.time);
         Reservation.endTime = (new Date(req.body.time)).setHours(Reservation.startTime.getHours()+duration);
         Reservation.tableId = sanitize(req.body.tableId);
-        Reservation.status = ReservationStatus.Pending;
         Reservation.personNumber = person;
-        Reservation.waiterId = null;
 
         
         var condition = {
