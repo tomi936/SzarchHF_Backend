@@ -134,6 +134,7 @@ module.exports = function(app){
     app.route("/waiter/order-by-id/:orderId/receipt").get(
         authMW(objectRepository,Role.Waiter, true),
         getOrderByIdMW(objectRepository),
+        listMenuItemsMW(objectRepository),
         getReceiptMW(objectRepository)
     );
 

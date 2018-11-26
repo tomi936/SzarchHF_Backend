@@ -14,17 +14,7 @@ var corsOptions = {
 
 //app.use(cors(corsOptions));
 app.use(express.static('public'));
-/**
- * Session above all
- */
-/*app.use(session({
-    secret: 'keyboard cat',
-    cookie: {
-        maxAge: 60000
-    },
-    resave: true,
-    saveUninitialized: false
-}));*/
+
 
 /**
  * Parse parameters in POST
