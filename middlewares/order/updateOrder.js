@@ -46,7 +46,10 @@ module.exports = function (objectrepository) {
         if(req.user.role === Role.Client)
         {
             Order._tableId = null;
-            Order.discount = sanitize(parseInt(req.body.discount));
+            var disc = parseInt(req.body.discount);
+            if(disc>res.tpl.user.loyaltyPoints)
+                return error(res,"Discount is bigger than it should be",400);
+            Order.discount = disc;
             Order.type = "Web";
             req.body.cart.forEach(function (item) {
                 var orderedItem = CartItemDto.constructFromObject(item);

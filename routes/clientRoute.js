@@ -15,6 +15,7 @@ var listMenuItemsMW = require('../middlewares/menu/listMenuItems');
 var getCartMW = require('../middlewares/order/getCart');
 var updateCartMW = require('../middlewares/order/updateCart');
 var responseJSON = require('../middlewares/generic/responseJSON');
+var getUserMW = require('../middlewares/user/getUser');
 
 var userModel = require('../models/User');
 var Role = require('../models/Roles');
@@ -101,6 +102,7 @@ module.exports = function (app) {
     app.route("/client/order").post(
         authMW(objectRepository, Role.Client, true),
         listMenuItemsMW(objectRepository),
+        getUserMW(objectRepository),
         updateOrdernMW(objectRepository),
         finishOrderMW(objectRepository),
         function (req, res, next) {
