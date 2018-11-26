@@ -3,7 +3,7 @@ const debugMessages = true;
 function errorHandler(res, message, code, err) {
 
     var msg = "";
-    if(typeof code != "undefined")
+    if(typeof code == "undefined" || code == null)
         code = 500;
 
     if (typeof message != "undefined"  )

@@ -48,7 +48,15 @@ app.use(function (req, res, next) {
     res.tpl = {};
     res.tpl.error = "";
     res.tpl.errorCode = 0;
-    res.tpl.resObj = undefined;
+    res.tpl.resObj = undefined;var user = "";
+
+    if(typeof req.user != "undefined")
+        user= JSON.stringify(req.user);
+    else
+        user = "Unauthorized";
+    console.log("Request: " + req.path +" | User: " +user +"\n ->body:" + JSON.stringify(req.body) + " -> params" + JSON.stringify(req.params)
+        + "   -> query" + JSON.stringify(req.query));
+
     return next();
 });
 
