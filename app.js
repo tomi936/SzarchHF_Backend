@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-app.use(sanitize.middleware());
+app.use(sanitize.middleware);
 app.use(jwt());
 
 
@@ -59,7 +59,7 @@ app.use(function (req, res, next) {
 /**
  * Standard error handler
  */
-app.use(errorHandler());
+app.use(errorHandler);
 /**
  * Include all the routes
  */
