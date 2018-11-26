@@ -20,7 +20,7 @@ module.exports = function (objectrepository) {
         if (typeof res.tpl.menuItems === "undefined" )
             return error(res,"\"Missing menuItems",500);
 
-        
+
         var Order = null;
 
         if (typeof res.tpl.order !== "undefined" && res.tpl.order != null) {

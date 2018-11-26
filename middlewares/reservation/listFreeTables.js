@@ -22,8 +22,8 @@ module.exports = function (objectrepository) {
         if(person<=0 )
             return error(res,"Invalid value in personNumber",400);
 
-        var startTime = new Date(req.query.time);
-        var endTime = (new Date(req.query.time)).setHours(startTime.getHours() + duration);
+        var startTime = new Date(parseInt(req.query.time));
+        var endTime = (new Date(parseInt(req.query.time))).setHours(startTime.getHours() + duration);
 
         var condition =
             {
