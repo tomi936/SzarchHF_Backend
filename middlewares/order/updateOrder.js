@@ -24,7 +24,7 @@ module.exports = function (objectrepository) {
         var Order = null;
 
         if (typeof res.tpl.order !== "undefined" && res.tpl.order != null) {
-            if(res.tpl.status !== OrderStatus.Open)
+            if(res.tpl.order.status !== OrderStatus.Open)
                 return error(res,"Can not edit finished or closed order!",400);
             Order = res.tpl.order;
         }
