@@ -33,10 +33,10 @@
       obj = obj || new CarItemDto();
 
       if (data.hasOwnProperty('_menuItemId')) {
-        obj['menuItemId'] = converter.convertToType(data['_menuItemId'], 'String');
+        obj['menuItemId'] = converter.convertToType(data['_menuItemId']._id, 'String');
       }
       if (data.hasOwnProperty('menuItemId')) {
-        obj['menuItemId'] = converter.convertToType(data['menuItemId'], 'String');
+        obj['menuItemId'] = converter.convertToType(data['menuItemId']._id, 'String');
       }
       if (data.hasOwnProperty('amount')) {
         obj['amount'] = converter.convertToType(data['amount'], 'Number');
