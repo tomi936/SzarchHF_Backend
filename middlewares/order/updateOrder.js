@@ -77,7 +77,7 @@ module.exports = function (objectrepository) {
 
             if(req.body.tableId != null)
             {
-                if(res.tpl.tables.some(t=>t.id == req.body.tableId))
+                if(!res.tpl.tables.some(t=>t.id == req.body.tableId))
                     return error(res,"Wrong table Id",400);
                 var query = {$and:[{_tableId:sanitize(req.body.tableId)},{status:OrderStatus.Open}]};
                 if(Order._id != null)
