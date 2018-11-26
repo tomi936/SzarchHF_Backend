@@ -8,7 +8,7 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
         if (typeof res.tpl.reservation === "undefined" || res.tpl.reservation == null)
             return error(res,"Missing reservation",400);
-        if (req.user.role === UserRole.Client && res.tpl.reservation.clientId !== req.user.id)
+        if (req.user.role === UserRole.Client && res.tpl.reservation.clientId != req.user.id)
             return error(res,"Can't delete another one's reservation",401);
         res.tpl.reservation.remove(function (err) {
             if (err)
