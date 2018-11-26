@@ -11,7 +11,6 @@ module.exports = function (objectrepository) {
     var Role = requireOption(objectrepository, 'role');
 
     return function (req, res, next) {
-        console.log("RegisterUser");
         if(typeof req.body === "undefined" || Object.keys(req.body).length === 0)
             error(res,"New user data is empty",400);
 

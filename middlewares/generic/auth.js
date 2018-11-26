@@ -2,7 +2,6 @@ const error = require('../../helpers/errorHandler');
 module.exports = function (objectrepository, requiredLevel, isExclusive) {
 
   return function (req, res, next) {
-    console.log("authMW");
       if(typeof req.user === "undefined")
           error(res,"Unauthorized",401);
 

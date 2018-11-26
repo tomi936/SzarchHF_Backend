@@ -11,7 +11,6 @@ module.exports = function (objectrepository) {
     var Role = requireOption(objectrepository, 'Role');
 
     return async function (req, res, next) {
-        console.log("updateOrder");
         if (typeof req.body === "undefined" || Object.keys(req.body).length === 0)
             error(res,"body is empty",400);
         if (req.user.role == Role.Client && (typeof req.body.cart === "undefined" || typeof req.body.discount === "undefined"))

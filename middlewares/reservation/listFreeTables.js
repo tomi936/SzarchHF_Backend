@@ -44,8 +44,6 @@ module.exports = function (objectrepository) {
             });
             if (result != null && result.length > 0) {
                 result.forEach(function (item) {
-                    console.log(JSON.stringify(item));
-                    console.log(item.tableId);
                     var tableIndex = res.tpl.resObj.findIndex(t=>t.tableId == item.tableId);
                     if(tableIndex>-1) {
                         res.tpl.resObj.splice(tableIndex, 1);

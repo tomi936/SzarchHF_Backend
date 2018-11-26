@@ -9,7 +9,6 @@ module.exports = function (objectrepository) {
     var CarItemDto = requireOption(objectrepository, 'cartItemDto');
 
     return function (req, res, next) {
-        console.log("updateCart");
         if(typeof req.body === "undefined" || Object.keys(req.body).length === 0)
             error(res,"New cart data is empty",400);
 

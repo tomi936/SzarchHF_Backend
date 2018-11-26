@@ -11,7 +11,6 @@ module.exports = function (objectrepository) {
     var LoginDto = requireOption(objectrepository, 'loginDto');
 
     return function (req, res, next) {
-        console.log("loginUser");
 
         if ((typeof req.body === 'undefined')|| Object.keys(req.body).length === 0)
             error(res,"Login user data is empty",400);

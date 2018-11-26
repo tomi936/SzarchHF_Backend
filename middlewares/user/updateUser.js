@@ -9,16 +9,12 @@ module.exports = function (objectrepository) {
     var UserDto = requireOption(objectrepository, 'userDto');
 
     return function (req, res, next) {
-        console.log("updateUser");
         if(typeof req.body === "undefined" || Object.keys(req.body).length === 0 || typeof res.tpl.user === "undefined")
             error(res,"New user data is empty",400);
 
 
         if(typeof res.tpl.user === "undefined" || res.tpl.user==null)
             error(res,"Can not find user",400);
-        console.log(req.body);
-        console.log(req.body.name);
-        console.log(req.body.email);
         var editedUser = UserDto.constructFromObject(req.body);
 
         if(typeof editedUser.name === "undefined" || editedUser.name.length === 0 ||

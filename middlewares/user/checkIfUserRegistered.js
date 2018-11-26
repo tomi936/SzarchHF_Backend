@@ -8,7 +8,6 @@ module.exports = function (objectrepository) {
     var UserModel = requireOption(objectrepository, 'userModel');
 
     return function (req, res, next) {
-        console.log("checkIfUserRegistered");
         if(typeof req.body === "undefined" || Object.keys(req.body).length === 0 || typeof req.body.email === "undefined")
             error(res,"User data is empty",400);
 

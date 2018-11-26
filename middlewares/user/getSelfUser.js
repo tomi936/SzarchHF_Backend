@@ -9,10 +9,8 @@ module.exports = function (objectrepository) {
     var clientDto = requireOption(objectrepository, 'clientDto');
 
     return function (req, res, next) {
-        console.log("getSelfUser");
 
         UserModel.findOne({_id:sanitize(req.user.id)}, function (err,result) {
-            console.log(result);
             if(err || !result)
                 error(res,"Can't find user",400,err);
 
