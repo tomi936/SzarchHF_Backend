@@ -42,7 +42,7 @@
       if (data.hasOwnProperty('orderItems')) {
         obj['orderItems'] = converter.convertToType(data['orderItems'], [CartItemDto]);
       }
-      
+
       if (data.hasOwnProperty('time')) {
         obj['time'] = converter.convertToType(data['time'], 'Date');
       }

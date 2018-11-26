@@ -145,6 +145,14 @@ module.exports = function(app){
         responseJSON(objectRepository)
     );
 
+    //list tables
+    app.route("/waiter/tables").get(
+        authMW(objectRepository,Role.Waiter, true),
+        getTablesMW(objectRepository),
+        function(req,res,next){res.tpl.resObj = res.tpl.tables; return next();},
+        responseJSON(objectRepository)
+    );
+
     //delete order by waiter
     app.route("/waiter/order-by-id/:orderId").delete(
         authMW(objectRepository,Role.Waiter, true),
