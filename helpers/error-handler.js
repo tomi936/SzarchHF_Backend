@@ -3,7 +3,8 @@ module.exports = errorHandler;
 function errorHandler(err, req, res, next) {
 
     console.log("Error: " + JSON.stringify(err));
-    if (res.tpl.error.length>0 && res.tpl.errorCode>0) {
+    if (typeof res.tpl.error != "undefined" && typeof res.tpl.errorCode!= "undefined"
+        && res.tpl.error.length>0 && res.tpl.errorCode>0) {
         // custom application error
         var errStr = res.tpl.error;
         if(typeof err != "undefined" && err!= null)
