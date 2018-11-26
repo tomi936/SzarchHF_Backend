@@ -23,7 +23,8 @@ module.exports = function (objectrepository) {
 
         var Reservation = res.tpl.reservation;
 
-        if (typeof req.body.status === "undefined") {
+        if (typeof req.body.status === "undefined" &&
+            (req.body.status === ReservationStatus.Pending || req.body.status === ReservationStatus.Accepted ||req.body.status === ReservationStatus.Rejected)) {
             res.tpl.error = "Reservation data is not complete";
             console.log(res.tpl.error);
             return res.sendStatus(400);

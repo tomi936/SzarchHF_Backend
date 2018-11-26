@@ -13,6 +13,13 @@ module.exports = function (objectrepository) {
             return res.sendStatus(400);
         }
 
+        if(res.tpl.order.status === OrderStatus.Closed)
+        {
+            res.tpl.error = "Cant finish closed order";
+            console.log(res.tpl.error);
+            return res.sendStatus(400);
+        }
+
         res.tpl.order.status = OrderStatus.Finished;
         res.tpl.order.save(function (err) {
             if (err) {

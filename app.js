@@ -45,7 +45,8 @@ app.use(jwt());
  */
 app.use(function (req, res, next) {
     res.tpl = {};
-    res.tpl.error = [];
+    res.tpl.error = "";
+    res.tpl.errorCode = 0;
     res.tpl.resObj = undefined;
     return next();
 });

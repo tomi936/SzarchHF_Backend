@@ -78,6 +78,7 @@ module.exports = function (objectrepository) {
         var condition = {
             $and:[
                 {tableId:Reservation.tableId},
+                {_id: {$ne : Reservation._id}},
                 {$or: [
                         {$and : [{startTime : {$lte: Reservation.startTime}}, {endTime:{$gte:Reservation.startTime}}]},
                         {$and : [{startTime : {$lte: Reservation.endTime}}, {endTime:{$gte:Reservation.endTime}}]},

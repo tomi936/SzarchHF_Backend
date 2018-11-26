@@ -5,13 +5,15 @@ module.exports = function (objectrepository) {
 
     var OrderModel = requireOption(objectrepository, 'orderModel');
     var OrderDto = requireOption(objectrepository, 'orderDto');
+    var OrderStatus = requireOption(objectrepository, 'orderStatus');
     var Role = requireOption(objectrepository, 'Role');
 
 
     return function (req, res, next) {
         var whereState = {};
         if(req.user.role === Role.Waiter)
-            whereState={$or:[ {owner : req.user.id}, {_tableId: null} ]};
+            whereState={$and:[{$or:[ {owner : req.user.id}, {_tableId: null} ]},{
+                status : {$ne:OrderStatus.Closed}}]};
         else
             whereState={owner : req.user.id};
 

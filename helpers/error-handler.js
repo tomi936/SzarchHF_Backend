@@ -1,12 +1,16 @@
 module.exports = errorHandler;
 
 function errorHandler(err, req, res, next) {
-    console.log("Error: " + JSON.stringify(err));
-    if (typeof (err) === 'string') {
+    if (res.tpl.error.length>0 && res.tpl.errorCode>0) {
         // custom application error
-
-        return res.sendStatus(400);
+        var errStr = res.tpl.error;
+        if(typeof err != "undefined" && err!= null)
+            errStr += " - " + JSON.stringify(err);
+        console.log(errStr);
+        return res.sendStatus(res.tpl.errorCode);
     }
+    else
+        console.log("Error: " + JSON.stringify(err));
 
     if (err.name === 'UnauthorizedError') {
         // jwt authentication error

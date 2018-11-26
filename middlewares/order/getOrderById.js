@@ -19,6 +19,7 @@ module.exports = function (objectrepository) {
 
         if(!orderId){
             res.tpl.order = null;
+            return next();
             /*res.tpl.error = "No orderId";
             console.log(res.tpl.error);
             return res.sendStatus(400);*/

@@ -5,6 +5,7 @@ var createReservationMW = require('../middlewares/reservation/createReservation'
 var updateReservationMW = require('../middlewares/reservation/updateReservation');
 var deleteReservationMW = require('../middlewares/reservation/deleteReservation');
 var validateReservationMW = require('../middlewares/reservation/validateReservation');
+var getTablesMW = require('../middlewares/reservation/getTables');
 var listOrdersMW = require('../middlewares/order/listOrders');
 var getOrderByIdMW = require('../middlewares/order/getOrderById');
 var getOrderByTableMW = require('../middlewares/order/getOrderByTable');
@@ -13,6 +14,7 @@ var deleteOrderMW = require('../middlewares/order/deleteOrder');
 var finishOrderMW = require('../middlewares/order/finishOrder');
 var getReceiptMW = require('../middlewares/order/getReceipt');
 var responseJSON = require('../middlewares/generic/responseJSON');
+var listMenuItemsMW = require('../middlewares/menu/listMenuItems');
 
 var userModel = require('../models/User');
 var Role = require('../models/Roles');
@@ -29,6 +31,7 @@ var orderDto = require('../dtos/OrderDto');
 var orderRequestDto = require('../dtos/OrderRequestDto');
 var ratingDto = require('../dtos/RatingDto');
 var cartItemDto = require('../dtos/CartItemDto');
+var menuItemDto = require('../dtos/MenuItemDto');
 
 module.exports = function(app){
 
@@ -47,7 +50,8 @@ module.exports = function(app){
         orderRequestDto:orderRequestDto,
         ratingDto: ratingDto,
         cartItemDto:cartItemDto,
-        Role:Role
+        Role:Role,
+        menuItemDto:menuItemDto
     };
 
     //get waiter reservations
@@ -60,6 +64,7 @@ module.exports = function(app){
     //make reservation by waiter
     app.route("/waiter/reservation").post(
         authMW(objectRepository,Role.Waiter, true),
+        getTablesMW(objectRepository),
         validateReservationMW(objectRepository),
         createReservationMW(objectRepository),
         function (req, res, next) {
@@ -70,6 +75,7 @@ module.exports = function(app){
     //update reservation
     app.route("/waiter/reservation").put(
         authMW(objectRepository,Role.Waiter, true),
+        getTablesMW(objectRepository),
         getReservationMW(objectRepository),
         validateReservationMW(objectRepository),
         updateReservationMW(objectRepository),
@@ -98,6 +104,8 @@ module.exports = function(app){
     //update order
     app.route("/waiter/order/").put(
         authMW(objectRepository,Role.Waiter, true),
+        listMenuItemsMW(objectRepository),
+        getTablesMW(objectRepository),
         getOrderByIdMW(objectRepository),
         updateOrdernMW(objectRepository),
         function (req, res, next) {
