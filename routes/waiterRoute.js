@@ -6,6 +6,7 @@ var updateReservationMW = require('../middlewares/reservation/updateReservation'
 var deleteReservationMW = require('../middlewares/reservation/deleteReservation');
 var validateReservationMW = require('../middlewares/reservation/validateReservation');
 var getTablesMW = require('../middlewares/reservation/getTables');
+var listTablesMW = require('../middlewares/reservation/listTables');
 var listOrdersMW = require('../middlewares/order/listOrders');
 var getOrderByIdMW = require('../middlewares/order/getOrderById');
 var getOrderByTableMW = require('../middlewares/order/getOrderByTable');
@@ -149,7 +150,7 @@ module.exports = function(app){
     app.route("/waiter/tables").get(
         authMW(objectRepository,Role.Waiter, true),
         getTablesMW(objectRepository),
-        function(req,res,next){res.tpl.resObj = res.tpl.tables; return next();},
+        listTablesMW(objectRepository),
         responseJSON(objectRepository)
     );
 
