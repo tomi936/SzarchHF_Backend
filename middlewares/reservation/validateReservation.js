@@ -11,28 +11,28 @@ module.exports = function (objectrepository) {
 
     return function (req, res, next) {
         if (typeof req.body === "undefined" || Object.keys(req.body).length === 0)
-            error(res,"body is empty",400);
+            return error(res,"body is empty",400);
         if (typeof req.body.time === "undefined" || typeof req.body.duration === "undefined"
             || typeof req.body.personNumber === "undefined"|| typeof req.body.tableId === "undefined")
-            error(res,"Reservation data is not complete",400);
+            return error(res,"Reservation data is not complete",400);
         if (typeof res.tpl.tables === "undefined" || res.tpl.tables == null || res.tpl.tables.length === 0)
-            error(res,"Missing tables",500);
+            return error(res,"Missing tables",500);
 
         var duration = parseInt(req.body.duration);
         if(duration<1 || duration>5)
-            error(res,"Invalid value in duration",400);
+            return error(res,"Invalid value in duration",400);
         var person = parseInt(req.body.personNumber);
         if(person<=0 )
-            error(res,"Invalid value in personNumber",400);
+            return error(res,"Invalid value in personNumber",400);
         var table = res.tpl.tables.find(t=>t.id === req.body.tableId);
        /* var table = res.tpl.tables.find(function (item) {
             console.log(item.id + " --- " + req.body.tableId);
             return item.id === req.body.tableId;
         });*/
         if(!table)
-            error(res,"Invalid tableId",400);
+            return error(res,"Invalid tableId",400);
         if(person > table.seats)
-            error(res,"Invalid personNumber: more than seats of the table have",400);
+            return error(res,"Invalid personNumber: more than seats of the table have",400);
 
         var Reservation = null;
 
@@ -65,10 +65,10 @@ module.exports = function (objectrepository) {
         };
         ReservationModel.find(condition, function (err,result) {
             if (err)
-                return error(res,"Error DB during searching reservations",500,err);
+                 return error(res,"Error DB during searching reservations",500,err);
 
             if(result != null && result.length>0)
-                return error(res,"Requested table already reserved",400);
+                 return error(res,"Requested table already reserved",400);
 
             res.tpl.reservation = Reservation;
             return next();
