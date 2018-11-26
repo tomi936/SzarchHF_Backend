@@ -19,10 +19,8 @@ module.exports = function (objectrepository) {
             return error(res,"Order data is empty",400);
         if (typeof res.tpl.menuItems === "undefined" )
             return error(res,"\"Missing menuItems",500);
-        if (typeof res.tpl.tables === "undefined" || res.tpl.tables == null || res.tpl.tables.length === 0)
-            return error(res,"Missing tables",500);
 
-
+        
         var Order = null;
 
         if (typeof res.tpl.order !== "undefined" && res.tpl.order != null) {
@@ -36,17 +34,7 @@ module.exports = function (objectrepository) {
             res.tpl.order = Order;
         }
 
-        if(req.body._tableId != null)
-        {
-            if(res.tpl.tables.some(t=>t.id === req.body.tableId))
-                return error(res,"Wrong table Id",400);
-            var query = {$and:[{_tableId:sanitize(req.body._tableId)},{status:OrderStatus.Open}]};
-            if(Order._id != null)
-                query.$and.push({_id:{$ne:Order._id}});
-            var openOrder = await OrderModel.find(query).exec();
-            if(openOrder && openOrder.length>0)
-                return error(res,"There is an open order for this table",400);
-        }
+
 
         Order.time = new Date();
         Order.sum = 0;
@@ -81,6 +69,22 @@ module.exports = function (objectrepository) {
         }
         else if(req.user.role === Role.Waiter)
         {
+            if (typeof res.tpl.tables === "undefined" || res.tpl.tables == null || res.tpl.tables.length === 0)
+                return error(res,"Missing tables",500);
+
+            if(req.body._tableId != null)
+            {
+                if(res.tpl.tables.some(t=>t.id === req.body.tableId))
+                    return error(res,"Wrong table Id",400);
+                var query = {$and:[{_tableId:sanitize(req.body._tableId)},{status:OrderStatus.Open}]};
+                if(Order._id != null)
+                    query.$and.push({_id:{$ne:Order._id}});
+                var openOrder = await OrderModel.find(query).exec();
+                if(openOrder && openOrder.length>0)
+                    return error(res,"There is an open order for this table",400);
+            }
+
+
             Order._tableId = sanitize(req.body._tableId);
             Order.type = "Local";
             req.body.orderItems.forEach(function (item) {
