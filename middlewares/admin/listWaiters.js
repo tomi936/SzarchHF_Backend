@@ -11,7 +11,6 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
 
         UserModel.find({role:Role.Waiter}, function (err,result) {
-            console.log(result);
             if(err || !result)
                 return error(res,"Can't load waiters",400,err);
 
