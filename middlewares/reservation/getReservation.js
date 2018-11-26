@@ -18,11 +18,11 @@ module.exports = function (objectrepository) {
 
 
         if (!reservationId)
-            error(res,"No reservationId",400);
+            return error(res,"No reservationId",400);
 
         ReservationModel.findOne({_id: sanitize(reservationId)}, function (err, result) {
             if (err)
-                error(res,"DB error during finding reservation",500,err);
+                return error(res,"DB error during finding reservation",500,err);
 
             res.tpl.reservation = result;
             return next();

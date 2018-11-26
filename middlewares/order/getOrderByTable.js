@@ -12,11 +12,11 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
 
         if(typeof req.params === "undefined" || typeof req.params.tableId === "undefined")
-            error(res,"No tableId",400);
+            return error(res,"No tableId",400);
 
         OrderModel.findOne({_tableId:sanitize(req.params.tableId), status : OrderStatus.Open}, function (err, result) {
             if(err)
-                error(res,"DB error during finding table",500,err);
+                return error(res,"DB error during finding table",500,err);
 
             res.tpl.resObj={};
             if(result)

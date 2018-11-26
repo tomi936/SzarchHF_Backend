@@ -20,7 +20,7 @@ module.exports = function (objectrepository) {
 
         OrderModel.find(whereState).populate("owner").exec(function (err,result) {
             if(err)
-                error(res,"Can't load orders",500,err);
+                return error(res,"Can't load orders",500,err);
 
             //console.log(result);
 

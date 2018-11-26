@@ -10,7 +10,7 @@ module.exports = function (objectrepository) {
 
     return function (req, res, next) {
         if(typeof req.body === "undefined" || Object.keys(req.body).length === 0)
-            error(res,"New cart data is empty",400);
+            return error(res,"New cart data is empty",400);
 
         var Cart = null;
 
@@ -28,14 +28,14 @@ module.exports = function (objectrepository) {
             var orderedItem = CarItemDto.constructFromObject(item);
             if(typeof orderedItem.menuItemId === "undefined" || orderedItem.menuItemId.length === 0 ||
                 typeof orderedItem.amount === "undefined" )
-                error(res,"Invalid orderItem data",400);
+                return error(res,"Invalid orderItem data",400);
 
             Cart.orderItems.push({_menuItemId: sanitize(orderedItem.menuItemId), amount:sanitize(orderedItem.amount)});
         });
 
         Cart.save(function (err) {
             if(err)
-                error(res,"Error DB during saving cart to DB",500,err);
+                return error(res,"Error DB during saving cart to DB",500,err);
 
             return next();
         });

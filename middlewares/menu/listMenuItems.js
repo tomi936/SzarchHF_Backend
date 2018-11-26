@@ -10,7 +10,7 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
         MenuItemModel.find({},function (err,result) {
             if(err || !result)
-                error(res,"Can't load menu",500,err);
+                return error(res,"Can't load menu",500,err);
 
 
             res.tpl.resObj=[];

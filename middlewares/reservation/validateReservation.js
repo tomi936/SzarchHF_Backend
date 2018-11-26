@@ -65,10 +65,10 @@ module.exports = function (objectrepository) {
         };
         ReservationModel.find(condition, function (err,result) {
             if (err)
-                error(res,"Error DB during searching reservations",500,err);
+                return error(res,"Error DB during searching reservations",500,err);
 
             if(result != null && result.length>0)
-                error(res,"Requested table already reserved",400);
+                return error(res,"Requested table already reserved",400);
 
             res.tpl.reservation = Reservation;
             return next();

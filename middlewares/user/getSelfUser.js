@@ -12,7 +12,7 @@ module.exports = function (objectrepository) {
 
         UserModel.findOne({_id:sanitize(req.user.id)}, function (err,result) {
             if(err || !result)
-                error(res,"Can't find user",400,err);
+                return error(res,"Can't find user",400,err);
 
             result = result.toObject();
             delete result.password;

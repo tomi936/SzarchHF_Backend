@@ -7,7 +7,7 @@ module.exports = function (objectrepository) {
 
     return function (req, res, next) {
         if(typeof res.tpl.order === "undefined" || res.tpl.order === null)
-            error(res,"Cant find order model",400);
+            return error(res,"Cant find order model",400);
 
 
         /*if (req.user.role === UserRole.Waiter && res.tpl.order.owner !== req.user.id) {

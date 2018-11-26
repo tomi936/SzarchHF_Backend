@@ -28,7 +28,7 @@ module.exports = function (objectrepository) {
 
         OrderModel.findOne({_id:sanitize(orderId)}, function (err, result) {
             if(err)
-                error(res,"DB error during finding order",500,err);
+                return error(res,"DB error during finding order",500,err);
 
             res.tpl.resObj={};
             if(result)

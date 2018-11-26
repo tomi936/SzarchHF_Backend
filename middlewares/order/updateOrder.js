@@ -12,22 +12,22 @@ module.exports = function (objectrepository) {
 
     return async function (req, res, next) {
         if (typeof req.body === "undefined" || Object.keys(req.body).length === 0)
-            error(res,"body is empty",400);
+            return error(res,"body is empty",400);
         if (req.user.role == Role.Client && (typeof req.body.cart === "undefined" || typeof req.body.discount === "undefined"))
-            error(res,"Body is empty",400);
+            return error(res,"Body is empty",400);
         if (req.user.role == Role.Waiter && (typeof req.body.orderItems === "undefined" || typeof req.body._tableId === "undefined" || req.body._tableId == null))
-            error(res,"Order data is empty",400);
+            return error(res,"Order data is empty",400);
         if (typeof res.tpl.menuItems === "undefined" )
-            error(res,"\"Missing menuItems",500);
+            return error(res,"\"Missing menuItems",500);
         if (typeof res.tpl.tables === "undefined" || res.tpl.tables == null || res.tpl.tables.length === 0)
-            error(res,"Missing tables",500);
+            return error(res,"Missing tables",500);
 
 
         var Order = null;
 
         if (typeof res.tpl.order !== "undefined" && res.tpl.order != null) {
             if(res.tpl.status !== OrderStatus.Open)
-                error(res,"Can not edit finished or closed order!",400);
+                return error(res,"Can not edit finished or closed order!",400);
             Order = res.tpl.order;
         }
         else {
@@ -39,13 +39,13 @@ module.exports = function (objectrepository) {
         if(req.body._tableId != null)
         {
             if(res.tpl.tables.some(t=>t.id === req.body.tableId))
-                error(res,"Wrong table Id",400);
+                return error(res,"Wrong table Id",400);
             var query = {$and:[{_tableId:sanitize(req.body._tableId)},{status:OrderStatus.Open}]};
             if(Order._id != null)
                 query.$and.push({_id:{$ne:Order._id}});
             var openOrder = await OrderModel.find(query).exec();
             if(openOrder && openOrder.length>0)
-                error(res,"There is an open order for this table",400);
+                return error(res,"There is an open order for this table",400);
         }
 
         Order.time = new Date();
@@ -64,7 +64,7 @@ module.exports = function (objectrepository) {
                 var orderedItem = CartItemDto.constructFromObject(item);
                 if (typeof orderedItem.menuItemId === "undefined" || orderedItem.menuItemId.length === 0 ||
                     typeof orderedItem.amount === "undefined")
-                    error(res,"Invalid orderItem data",400);
+                    return error(res,"Invalid orderItem data",400);
                 var mItem = res.tpl.menuItems.find(e => e.menuItemId === orderedItem.menuItemId);
                 if(!mItem)
                 {
@@ -87,7 +87,7 @@ module.exports = function (objectrepository) {
                 var orderedItem = CartItemDto.constructFromObject(item);
                 if (typeof orderedItem.menuItemId === "undefined" || orderedItem.menuItemId.length === 0 ||
                     typeof orderedItem.amount === "undefined")
-                    error(res,"Invalid orderItem data",400);
+                    return error(res,"Invalid orderItem data",400);
                 var mItem = res.tpl.menuItems.find(e => e.menuItemId === orderedItem.menuItemId);
                 if(!mItem)
                 {
@@ -109,7 +109,7 @@ module.exports = function (objectrepository) {
 
         Order.save(function (err) {
             if (err)
-                error(res,"Error DB during saving order to DB",500,err);
+                return error(res,"Error DB during saving order to DB",500,err);
 
             return next();
         });

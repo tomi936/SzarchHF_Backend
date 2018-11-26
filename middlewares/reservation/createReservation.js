@@ -8,11 +8,11 @@ module.exports = function (objectrepository) {
 
     return function (req, res, next) {
         if (typeof res.tpl.reservation === "undefined" || res.tpl.reservation == null)
-            error(res,"Missing reservation",400);
+            return error(res,"Missing reservation",400);
 
         res.tpl.reservation.save(function (err) {
             if (err)
-                error(res,"Error during saving reservation to DB",500,err);
+                return error(res,"Error during saving reservation to DB",500,err);
             return next();
         });
     };

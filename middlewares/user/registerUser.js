@@ -12,7 +12,7 @@ module.exports = function (objectrepository) {
 
     return function (req, res, next) {
         if(typeof req.body === "undefined" || Object.keys(req.body).length === 0)
-            error(res,"New user data is empty",400);
+            return error(res,"New user data is empty",400);
 
         var editedUser = ClientRegisterDto.constructFromObject(req.body);
 
@@ -20,7 +20,7 @@ module.exports = function (objectrepository) {
             typeof editedUser.password === "undefined" || editedUser.password.length === 0 ||
             typeof editedUser.email === "undefined" ||editedUser.email.length === 0 ||
             typeof editedUser.address === "undefined" ||editedUser.address.length === 0)
-            error(res,"Invalid user data",400);
+            return error(res,"Invalid user data",400);
 
 
         var newUser = UserModel();
@@ -36,7 +36,7 @@ module.exports = function (objectrepository) {
 
         newUser.save(function (err) {
             if(err)
-                error(res,"Error DB during saving user to DB",500,err);
+                return error(res,"Error DB during saving user to DB",500,err);
 
             return next();
         });

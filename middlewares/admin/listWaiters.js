@@ -13,7 +13,7 @@ module.exports = function (objectrepository) {
         UserModel.find({role:Role.Waiter}, function (err,result) {
             console.log(result);
             if(err || !result)
-                error(res,"Can't load waiters",400,err);
+                return error(res,"Can't load waiters",400,err);
 
             res.tpl.resObj=[];
             if(result.length>0) {

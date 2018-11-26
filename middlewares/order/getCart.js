@@ -10,7 +10,7 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
         CartModel.findOne({_clientId:req.user.id}, function (err, result) {
             if(err)
-                error(res,"DB error during loading cart",500,err);
+                return error(res,"DB error during loading cart",500,err);
 
             res.tpl.cart = result;
             res.tpl.resObj = [];

@@ -10,17 +10,17 @@ module.exports = function (objectrepository) {
 
     return function (req, res, next) {
         if(typeof req.body === "undefined" || Object.keys(req.body).length === 0 || typeof res.tpl.user === "undefined")
-            error(res,"New user data is empty",400);
+            return error(res,"New user data is empty",400);
 
 
         if(typeof res.tpl.user === "undefined" || res.tpl.user==null)
-            error(res,"Can not find user",400);
+            return error(res,"Can not find user",400);
         var editedUser = UserDto.constructFromObject(req.body);
 
         if(typeof editedUser.name === "undefined" || editedUser.name.length === 0 ||
             typeof editedUser.email === "undefined" ||editedUser.email.length === 0 ||
             typeof editedUser.address === "undefined" ||editedUser.address.length === 0)
-            error(res,"Invalid user data",400);
+            return error(res,"Invalid user data",400);
 
 
         res.tpl.user.name = sanitize(editedUser.name);
@@ -36,7 +36,7 @@ module.exports = function (objectrepository) {
 
         res.tpl.user.save(function (err) {
             if(err)
-                error(res,"Error DB during saving user to DB",500, err);
+                return error(res,"Error DB during saving user to DB",500, err);
 
             return next();
         });

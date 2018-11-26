@@ -11,16 +11,16 @@ module.exports = function (objectrepository) {
 
     return function (req, res, next) {
         if (typeof req.body === "undefined" || Object.keys(req.body).length === 0)
-            error(res,"body is empty",400);
+            return error(res,"body is empty",400);
 
         if (typeof res.tpl.reservation === "undefined" || res.tpl.reservation == null)
-            error(res,"Missing reservation",400);
+            return error(res,"Missing reservation",400);
 
         var Reservation = res.tpl.reservation;
 
         if (typeof req.body.status === "undefined" &&
             (req.body.status === ReservationStatus.Pending || req.body.status === ReservationStatus.Accepted ||req.body.status === ReservationStatus.Rejected))
-            error(res,"Reservation data is not complete",400);
+            return error(res,"Reservation data is not complete",400);
 
         Reservation.status = sanitize(req.body.status);
 
@@ -30,7 +30,7 @@ module.exports = function (objectrepository) {
 
         res.tpl.reservation.save(function (err) {
             if (err)
-                error(res,"Error during saving reservation to DB",500,err);
+                return error(res,"Error during saving reservation to DB",500,err);
             return next();
         });
     };

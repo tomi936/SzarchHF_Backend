@@ -19,7 +19,7 @@ module.exports = function (objectrepository) {
 
         ReservationModel.find(whereState).populate("owner").exec(function (err, result) {
             if (err || !result)
-                error(res,"Can't load reservations",400,err);
+                return error(res,"Can't load reservations",400,err);
 
             //console.log(result);
 

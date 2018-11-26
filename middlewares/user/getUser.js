@@ -10,7 +10,7 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
         UserModel.findOne({_id:sanitize(req.user.id)}, function (err,result) {
             if(err)
-                error(res,"DB Error during getting User",500,err);
+                return error(res,"DB Error during getting User",500,err);
 
             res.tpl.user = result;
             return next();

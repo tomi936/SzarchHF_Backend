@@ -9,18 +9,18 @@ module.exports = function (objectrepository) {
 
     return function (req, res, next) {
         if (typeof res.tpl.order === "undefined" || res.tpl.order === null)
-            error(res,"Cant find order",400);
+            return error(res,"Cant find order",400);
 
         if (res.tpl.order.status === OrderStatus.Open)
-            error(res,"Cant print unfinished receipt",400);
+            return error(res,"Cant print unfinished receipt",400);
 
         if (typeof res.tpl.menuItems === "undefined" )
-            error(res,"Missing menuItems",500);
+            return error(res,"Missing menuItems",500);
 
         res.tpl.order.status = OrderStatus.Closed;
         res.tpl.order.save(function (err) {
             if (err)
-                error(res,"Error DB during saving order to DB",500,err);
+                return error(res,"Error DB during saving order to DB",500,err);
 
             res.contentType('application/pdf');
             res.attachment('orderExport'+res.tpl.order._id+'.pdf');

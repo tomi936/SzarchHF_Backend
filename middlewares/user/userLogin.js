@@ -13,15 +13,15 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
 
         if ((typeof req.body === 'undefined')|| Object.keys(req.body).length === 0)
-            error(res,"Login user data is empty",400);
+            return error(res,"Login user data is empty",400);
 
         var loginUser = LoginDto.constructFromObject(req.body);
         if ((typeof loginUser.email === 'undefined') || (typeof loginUser.password === 'undefined'))
-            error(res,"Login user data is missing",400);
+            return error(res,"Login user data is missing",400);
 
         UserModel.findOne({ email: sanitize(loginUser.email)}, function (err, user) {
-            if(err ||  user === null)
-                error(res,"",500,err);
+            if(err)
+                return error(res,"",500,err);
 
             if (user && bcrypt.compareSync(loginUser.password, user.password)) {
                 //const {password, userWithoutPassword} = user.toObject();
@@ -32,7 +32,7 @@ module.exports = function (objectrepository) {
                 return next();
             }
             else
-                error(res,"",401);
+                return error(res,"",401);
 
         });
     };
