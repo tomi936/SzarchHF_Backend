@@ -52,7 +52,7 @@
       if (data.hasOwnProperty('status')) {
         obj['status'] = converter.convertToType(data['status'], 'String');
       }
-      if (data.hasOwnProperty('tableId')) {
+      if (data.hasOwnProperty('_tableId')) {
         obj['tableId'] = converter.convertToType(data['_tableId'], 'String');
       }
       if (data.hasOwnProperty('tableId')) {
