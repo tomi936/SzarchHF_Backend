@@ -2,20 +2,26 @@ const https = require('https');
 var express = require('express');
 var app = express();
 const cors = require('cors');
+const helmet = require('helmet');
 var bodyParser = require('body-parser');
 const sanitize = require('sanitize');
 const jwt = require('./helpers/jwt');
 const errorHandler = require('./helpers/error-handler');
 
+
+
+
+app.use(express.static('public'));
+
+//CORS Settings
 var corsOptions = {
     origin: 'http://localhost',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-
-//app.use(cors(corsOptions));
-app.use(express.static('public'));
+//Example:
+// app.use(cors(corsOptions));
 app.use(cors());
-
+app.use(helmet());
 /**
  * Parse parameters in POST
  */
@@ -50,9 +56,6 @@ app.use(function (req, res, next) {
     return next();
 });
 
-// use JWT auth to secure the api
-//app.use(jwt());
-
 /**
  * Include all the routes
  */
@@ -71,9 +74,15 @@ var server = app.listen(3000, function () {
     console.log("listening on: 3000");
 });
 
-
 /*
-const httpsServer = https.createServer({}, app);
+
+//HTTPS Server Example
+var HttpsOptions = {
+    key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
+    cert: fs.readFileSync('test/fixtures/keys/agent2-cert.cert')
+};
+
+const httpsServer = https.createServer(HttpsOptions, app);
 httpsServer.listen(443, () => {
     console.log('HTTPS Server running on port 443');
 });*/
