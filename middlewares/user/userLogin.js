@@ -21,8 +21,6 @@ module.exports = function (objectrepository) {
             error(res,"Login user data is missing",400);
 
         UserModel.findOne({ email: sanitize(loginUser.email)}, function (err, user) {
-            console.log(err);
-            console.log(user);
             if(err ||  user === null)
                 error(res,"",500,err);
 
