@@ -1,5 +1,6 @@
 var requireOption = require('../common').requireOption;
 const sanitize = require('mongo-sanitize');
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -9,29 +10,17 @@ module.exports = function (objectrepository) {
 
 
     return function (req, res, next) {
-        if (typeof req.query === "undefined") {
-            res.tpl.error = "params is empty";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+        if (typeof req.query === "undefined")
+            error(res,"query is empty",400);
         if (typeof req.query.time === "undefined" || typeof req.query.duration === "undefined"
-            || typeof req.query.person === "undefined") {
-            res.tpl.error = "Reservation data is not complete to search";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+            || typeof req.query.person === "undefined")
+            error(res,"Reservation data is not complete to search",400);
         var duration = parseInt(req.query.duration);
-        if(duration<1 || duration>5){
-            res.tpl.error = "Invalid value in duration";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+        if(duration<1 || duration>5)
+            error(res,"Invalid value in duration",400);
         var person = parseInt(req.query.person);
-        if(person<=0 ){
-            res.tpl.error = "Invalid value in personNumber";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+        if(person<=0 )
+            error(res,"Invalid value in personNumber",400);
 
         var startTime = new Date(req.query.time);
         var endTime = (new Date(req.query.time)).setHours(startTime.getHours() + duration);
@@ -45,11 +34,8 @@ module.exports = function (objectrepository) {
                 ]
             };
         ReservationModel.find(condition, function (err, result) {
-            if (err) {
-                res.tpl.error = "Error DB during searching reservations";
-                console.log(res.tpl.error);
-                return res.sendStatus(500);
-            }
+            if (err)
+                error(res,"Error DB during searching reservations",500,err);
 
             res.tpl.resObj = [];
             res.tpl.tables.forEach(function (item) {

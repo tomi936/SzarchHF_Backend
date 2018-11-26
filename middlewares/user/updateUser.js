@@ -1,6 +1,7 @@
 var requireOption = require('../common').requireOption;
 const bcrypt = require('bcrypt');
 const sanitize = require('mongo-sanitize');
+const error = require('../../helpers/errorHandler');
 
 module.exports = function (objectrepository) {
 
@@ -10,18 +11,11 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
         console.log("updateUser");
         if(typeof req.body === "undefined" || Object.keys(req.body).length === 0 || typeof res.tpl.user === "undefined")
-        {
-            res.tpl.error = "New user data is empty";
-            console.log(res.tpl.error);
-            return res.sendDtatus(400);
-        }
+            error(res,"New user data is empty",400);
+
 
         if(typeof res.tpl.user === "undefined" || res.tpl.user==null)
-        {
-            res.tpl.error = "Can not find user";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+            error(res,"Can not find user",400);
         console.log(req.body);
         console.log(req.body.name);
         console.log(req.body.email);
@@ -30,11 +24,8 @@ module.exports = function (objectrepository) {
         if(typeof editedUser.name === "undefined" || editedUser.name.length === 0 ||
             typeof editedUser.email === "undefined" ||editedUser.email.length === 0 ||
             typeof editedUser.address === "undefined" ||editedUser.address.length === 0)
-        {
-            res.tpl.error = "Invalid user data";
-            console.log(res.tpl.error);
-            return res.status(400).json(res.tpl.error);
-        }
+            error(res,"Invalid user data",400);
+
 
         res.tpl.user.name = sanitize(editedUser.name);
         res.tpl.user.email = sanitize(editedUser.email);
@@ -49,11 +40,7 @@ module.exports = function (objectrepository) {
 
         res.tpl.user.save(function (err) {
             if(err)
-            {
-                res.tpl.error = "Error DB during saving user to DB";
-                console.log(res.tpl.error);
-                return res.status(500).json(res.tpl.error);
-            }
+                error(res,"Error DB during saving user to DB",500, err);
 
             return next();
         });

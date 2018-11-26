@@ -1,4 +1,5 @@
 var requireOption = require('../common').requireOption;
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -9,11 +10,8 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
         MenuItemModel.find({},function (err,result) {
             if(err || !result)
-            {
-                res.tpl.error = "Can't load menu";
-                console.log(res.tpl.error);
-                return res.status(400).json(res.tpl.error);
-            }
+                error(res,"Can't load menu",500,err);
+
 
             res.tpl.resObj=[];
             if(result.length>0) {

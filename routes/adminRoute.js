@@ -30,7 +30,7 @@ module.exports = function(app){
         checkIfUserRegisteredMW(objectRepository),
         addWaiterMW(objectRepository),
         function (req,res,next) {
-            return res.sendStatus(200);
+            return res.status(200).json();
         }
     );
 
@@ -40,7 +40,7 @@ module.exports = function(app){
         getWaiterMW(objectRepository),
         deleteWaiterMW(objectRepository),
         function (req,res,next) {
-            return res.sendStatus(200);
+            return res.status(200).json();
         }
     );
 };

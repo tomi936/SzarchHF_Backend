@@ -1,4 +1,5 @@
 var requireOption = require('../common').requireOption;
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -12,11 +13,7 @@ module.exports = function (objectrepository) {
         UserModel.find({role:Role.Waiter}, function (err,result) {
             console.log(result);
             if(err || !result)
-            {
-                res.tpl.error = "Can't load waiters";
-                console.log(res.tpl.error);
-                return res.sendStatus(400);
-            }
+                error(res,"Can't load waiters",400,err);
 
             res.tpl.resObj=[];
             if(result.length>0) {

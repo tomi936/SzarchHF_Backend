@@ -1,4 +1,5 @@
 var requireOption = require('../common').requireOption;
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -9,11 +10,8 @@ module.exports = function (objectrepository) {
 
 
         TableModel.find({},function (err, result) {
-            if (err || !result) {
-                res.tpl.error = "Can't load tables";
-                console.log(res.tpl.error);
-                return res.sendStatus(400);
-            }
+            if (err || !result)
+                error(res,"Can't load tables",500,err);
 
             res.tpl.tables = result;
             return next();

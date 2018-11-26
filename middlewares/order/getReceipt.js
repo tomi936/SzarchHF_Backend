@@ -1,6 +1,6 @@
 var requireOption = require('../common').requireOption;
 const PDFDocument = require('pdfkit');
-var FileSystem = require('fs');
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -8,31 +8,19 @@ module.exports = function (objectrepository) {
     var OrderStatus = requireOption(objectrepository, 'orderStatus');
 
     return function (req, res, next) {
-        if (typeof res.tpl.order === "undefined" || res.tpl.order === null) {
-            res.tpl.error = "Cant find order model";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+        if (typeof res.tpl.order === "undefined" || res.tpl.order === null)
+            error(res,"Cant find order",400);
 
-        if (res.tpl.order.status === OrderStatus.Open) {
-            res.tpl.error = "Cant print unfinished receipt";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+        if (res.tpl.order.status === OrderStatus.Open)
+            error(res,"Cant print unfinished receipt",400);
 
-        if (typeof res.tpl.menuItems === "undefined" ) {
-            res.tpl.error = "Missing menuItems";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+        if (typeof res.tpl.menuItems === "undefined" )
+            error(res,"Missing menuItems",500);
 
         res.tpl.order.status = OrderStatus.Closed;
         res.tpl.order.save(function (err) {
-            if (err) {
-                res.tpl.error = "Error DB during saving order to DB";
-                console.log(res.tpl.error);
-                return res.status(500).json(res.tpl.error);
-            }
+            if (err)
+                error(res,"Error DB during saving order to DB",500,err);
 
             res.contentType('application/pdf');
             res.attachment('orderExport'+res.tpl.order._id+'.pdf');
@@ -68,5 +56,5 @@ module.exports = function (objectrepository) {
 
 
     };
-}
+};
 

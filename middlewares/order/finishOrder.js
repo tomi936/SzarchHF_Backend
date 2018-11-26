@@ -1,4 +1,5 @@
 var requireOption = require('../common').requireOption;
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -7,26 +8,14 @@ module.exports = function (objectrepository) {
 
     return function (req, res, next) {
         if(typeof res.tpl.order === "undefined" || res.tpl.order === null)
-        {
-            res.tpl.error = "Cant find order model";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
-
+            error(res,"Cant find order model",400);
         if(res.tpl.order.status === OrderStatus.Closed)
-        {
-            res.tpl.error = "Cant finish closed order";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+            error(res,"Cant finish closed order",400);
 
         res.tpl.order.status = OrderStatus.Finished;
         res.tpl.order.save(function (err) {
-            if (err) {
-                res.tpl.error = "Error DB during saving order to DB";
-                console.log(res.tpl.error);
-                return res.status(500).json(res.tpl.error);
-            }
+            if (err)
+                error(res,"Error DB during saving order to DB",500,err);
 
             return next();
         });

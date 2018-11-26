@@ -1,5 +1,6 @@
 var requireOption = require('../common').requireOption;
 const sanitize = require('mongo-sanitize');
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -10,11 +11,7 @@ module.exports = function (objectrepository) {
         console.log("getUser");
         UserModel.findOne({_id:sanitize(req.user.id)}, function (err,result) {
             if(err)
-            {
-                res.tpl.error = "DB Error during getting User";
-                console.log(res.tpl.error);
-                return res.sendStatus(400);
-            }
+                error(res,"DB Error during getting User",500,err);
 
             res.tpl.user = result;
             return next();

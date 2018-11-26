@@ -1,27 +1,18 @@
 var requireOption = require('../common').requireOption;
+const error = require('../../helpers/errorHandler');
 
 module.exports = function (objectrepository) {
 
     var UserRole = requireOption(objectrepository, 'Role');
 
     return function (req, res, next) {
-        if (typeof res.tpl.reservation === "undefined" || res.tpl.reservation == null) {
-            res.tpl.error = "Missing reservation";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
-        if (req.user.role === UserRole.Client && res.tpl.reservation.clientId !== req.user.id) {
-            res.tpl.error = "Can't delete another one's reservation ";
-            console.log(res.tpl.error);
-            return res.sendStatus(401);
-        }
-
+        if (typeof res.tpl.reservation === "undefined" || res.tpl.reservation == null)
+            error(res,"Missing reservation",400);
+        if (req.user.role === UserRole.Client && res.tpl.reservation.clientId !== req.user.id)
+            error(res,"Can't delete another one's reservation",401);
         res.tpl.reservation.remove(function (err) {
-            if (err) {
-                res.tpl.error = "Error during removing reservation to DB";
-                console.log(res.tpl.error);
-                return res.sendStatus(500);
-            }
+            if (err)
+                error(res,"Error during removing reservation to DB",500,err);
             return next();
         });
 

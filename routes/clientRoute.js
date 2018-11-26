@@ -76,7 +76,7 @@ module.exports = function (app) {
         validateReservationMW(objectRepository),
         createReservationMW(objectRepository),
         function (req, res, next) {
-            return res.sendStatus(200);
+            return res.status(200).json();
         }
     );
 
@@ -86,7 +86,7 @@ module.exports = function (app) {
         getReservationMW(objectRepository),
         deleteReservationMW(objectRepository),
         function (req, res, next) {
-            return res.sendStatus(200);
+            return res.status(200).json();
         }
     );
 
@@ -104,7 +104,7 @@ module.exports = function (app) {
         updateOrdernMW(objectRepository),
         finishOrderMW(objectRepository),
         function (req, res, next) {
-            return res.sendStatus(200);
+            return res.status(200).json();
         }
     );
 
@@ -114,7 +114,7 @@ module.exports = function (app) {
         getOrderByIdMW(objectRepository),
         rateOrderMW(objectRepository),
         function (req, res, next) {
-            return res.sendStatus(200);
+            return res.status(200).json();
         }
     );
 
@@ -138,7 +138,7 @@ module.exports = function (app) {
         getCartMW(objectRepository),
         updateCartMW(objectRepository),
         function (req, res, next) {
-            return res.sendStatus(200);
+            return res.status(200).json();
         }
     );
 

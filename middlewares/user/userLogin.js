@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const error = require('../../helpers/errorHandler');
 const sanitize = require('mongo-sanitize');
 const jwt = require('jsonwebtoken');
 var requireOption = require('../common').requireOption;
@@ -13,25 +14,17 @@ module.exports = function (objectrepository) {
         console.log("loginUser");
 
         if ((typeof req.body === 'undefined')|| Object.keys(req.body).length === 0)
-        {
-            res.tpl.error = "Login user data is empty";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+            error(res,"Login user data is empty",400);
 
         var loginUser = LoginDto.constructFromObject(req.body);
         if ((typeof loginUser.email === 'undefined') || (typeof loginUser.password === 'undefined'))
-        {
-            res.tpl.error = "Login user data is missing";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+            error(res,"Login user data is missing",400);
 
         UserModel.findOne({ email: sanitize(loginUser.email)}, function (err, user) {
             console.log(err);
             console.log(user);
             if(err ||  user === null)
-                return res.sendStatus(401);
+                error(res,"",500,err);
 
             if (user && bcrypt.compareSync(loginUser.password, user.password)) {
                 //const {password, userWithoutPassword} = user.toObject();
@@ -42,7 +35,7 @@ module.exports = function (objectrepository) {
                 return next();
             }
             else
-                return res.sendStatus(401);
+                error(res,"",401);
 
         });
     };

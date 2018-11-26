@@ -68,7 +68,7 @@ module.exports = function(app){
         validateReservationMW(objectRepository),
         createReservationMW(objectRepository),
         function (req, res, next) {
-            return res.sendStatus(200);
+            return res.status(200).json();
         }
         );
 
@@ -80,7 +80,7 @@ module.exports = function(app){
         validateReservationMW(objectRepository),
         updateReservationMW(objectRepository),
         function (req, res, next) {
-            return res.sendStatus(200);
+            return res.status(200).json();
         }
     );
 
@@ -90,7 +90,7 @@ module.exports = function(app){
         getReservationMW(objectRepository),
         deleteReservationMW(objectRepository),
         function (req, res, next) {
-            return res.sendStatus(200);
+            return res.status(200).json();
         }
     );
 
@@ -109,7 +109,7 @@ module.exports = function(app){
         getOrderByIdMW(objectRepository),
         updateOrdernMW(objectRepository),
         function (req, res, next) {
-            return res.sendStatus(200);
+            return res.status(200).json();
         }
     );
 
@@ -126,7 +126,7 @@ module.exports = function(app){
         getOrderByIdMW(objectRepository),
         finishOrderMW(objectRepository),
         function (req, res, next) {
-            return res.sendStatus(200);
+            return res.status(200).json();
         }
     );
 
@@ -151,7 +151,7 @@ module.exports = function(app){
         getOrderByIdMW(objectRepository),
         deleteOrderMW(objectRepository),
         function (req, res, next) {
-            return res.sendStatus(200);
+            return res.status(200).json();
         }
     );
 

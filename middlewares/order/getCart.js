@@ -1,4 +1,5 @@
 var requireOption = require('../common').requireOption;
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -9,11 +10,7 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
         CartModel.findOne({_clientId:req.user.id}, function (err, result) {
             if(err)
-            {
-                res.tpl.error = "DB error during loading cart";
-                console.log(res.tpl.error);
-                return res.status(400).json(res.tpl.error);
-            }
+                error(res,"DB error during loading cart",500,err);
 
             res.tpl.cart = result;
             res.tpl.resObj = [];
@@ -31,5 +28,5 @@ module.exports = function (objectrepository) {
 
 
     };
-}
+};
 

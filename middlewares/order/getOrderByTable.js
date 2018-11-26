@@ -1,5 +1,6 @@
 var requireOption = require('../common').requireOption;
 const sanitize = require('mongo-sanitize');
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -11,19 +12,11 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
 
         if(typeof req.params === "undefined" || typeof req.params.tableId === "undefined")
-        {
-            res.tpl.error = "No tableId";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+            error(res,"No tableId",400);
 
         OrderModel.findOne({_tableId:sanitize(req.params.tableId), status : OrderStatus.Open}, function (err, result) {
             if(err)
-            {
-                res.tpl.error = "DB error during finding table";
-                console.log(res.tpl.error);
-                return res.status(400).json(res.tpl.error);
-            }
+                error(res,"DB error during finding table",500,err);
 
             res.tpl.resObj={};
             if(result)

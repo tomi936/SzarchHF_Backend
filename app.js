@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-app.use(sanitize.middleware);
+app.use(sanitize.middleware());
 app.use(jwt());
 
 
@@ -55,6 +55,11 @@ app.use(function (req, res, next) {
 // use JWT auth to secure the api
 //app.use(jwt());
 
+
+/**
+ * Standard error handler
+ */
+app.use(errorHandler());
 /**
  * Include all the routes
  */
@@ -64,10 +69,6 @@ require('./routes/waiterRoute')(app);
 require('./routes/adminRoute')(app);
 
 
-/**
- * Standard error handler
- */
-app.use(errorHandler);
 
 var server = app.listen(3000, function () {
     console.log("listening on: 3000");

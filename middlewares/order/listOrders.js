@@ -1,4 +1,5 @@
 var requireOption = require('../common').requireOption;
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -18,17 +19,13 @@ module.exports = function (objectrepository) {
             whereState={owner : req.user.id};
 
         OrderModel.find(whereState).populate("owner").exec(function (err,result) {
-            if(err || !result)
-            {
-                res.tpl.error = "Can't load orders -"+ err;
-                console.log(res.tpl.error);
-                return res.sendStatus(400);
-            }
+            if(err)
+                error(res,"Can't load orders",500,err);
 
             //console.log(result);
 
             res.tpl.resObj=[];
-            if(result.length>0) {
+            if(result && result.length>0) {
                 result.forEach(function (item) {
                     var Order = OrderDto.constructFromObject(item.toObject());
                     Order.ownerId = item.owner._id;

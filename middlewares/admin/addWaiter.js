@@ -1,3 +1,4 @@
+const error = require('../../helpers/errorHandler');
 var requireOption = require('../common').requireOption;
 const bcrypt = require('bcrypt');
 const sanitize = require('mongo-sanitize');
@@ -12,21 +13,13 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
 
         if(typeof req.body === "undefined" || Object.keys(req.body).length === 0)
-        {
-            res.tpl.error = "New waiter data is empty";
-            console.log(res.tpl.error);
-            res.sendStatus(400);
-        }
+            error(res,"New waiter data is empty",400);
         var editedUser = UserDto.constructFromObject(req.body);
 
         if(typeof editedUser.name === "undefined" || editedUser.name.length === 0 ||
             typeof editedUser.password === "undefined" || editedUser.password.length === 0 ||
             typeof editedUser.email === "undefined" ||editedUser.email.length === 0 )
-        {
-            res.tpl.error = "Invalid waiter data";
-            console.log(res.tpl.error);
-            res.sendStatus(400);
-        }
+            error(res,"Invalid waiter data",400);
 
         var newUser = UserModel();
         newUser.name = sanitize(editedUser.name);
@@ -42,11 +35,7 @@ module.exports = function (objectrepository) {
 
         newUser.save(function (err) {
             if(err)
-            {
-                res.tpl.error = "Error DB during saving waiter to DB";
-                console.log(res.tpl.error);
-                res.sendStatus(500);
-            }
+                error(res,"Error DB during saving waiter to DB",500,err);
 
             return next();
         });

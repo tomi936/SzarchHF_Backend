@@ -1,5 +1,6 @@
 var requireOption = require('../common').requireOption;
 const sanitize = require('mongo-sanitize');
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -10,11 +11,7 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
         console.log("updateCart");
         if(typeof req.body === "undefined" || Object.keys(req.body).length === 0)
-        {
-            res.tpl.error = "New cart data is empty";
-            console.log(res.tpl.error);
-            return res.status(400).json(res.tpl.error);
-        }
+            error(res,"New cart data is empty",400);
 
         var Cart = null;
 
@@ -32,22 +29,14 @@ module.exports = function (objectrepository) {
             var orderedItem = CarItemDto.constructFromObject(item);
             if(typeof orderedItem.menuItemId === "undefined" || orderedItem.menuItemId.length === 0 ||
                 typeof orderedItem.amount === "undefined" )
-            {
-                res.tpl.error = "Invalid orderItem data";
-                console.log(res.tpl.error);
-                return res.status(400).json(res.tpl.error);
-            }
+                error(res,"Invalid orderItem data",400);
 
             Cart.orderItems.push({_menuItemId: sanitize(orderedItem.menuItemId), amount:sanitize(orderedItem.amount)});
         });
 
         Cart.save(function (err) {
             if(err)
-            {
-                res.tpl.error = "Error DB during saving cart to DB";
-                console.log(res.tpl.error);
-                return res.status(500).json(res.tpl.error);
-            }
+                error(res,"Error DB during saving cart to DB",500,err);
 
             return next();
         });

@@ -1,4 +1,5 @@
 var requireOption = require('../common').requireOption;
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -17,11 +18,8 @@ module.exports = function (objectrepository) {
             whereState = {$and:[ {clientId: req.user.id} , {startTime: {$gte:today}}]};
 
         ReservationModel.find(whereState).populate("owner").exec(function (err, result) {
-            if (err || !result) {
-                res.tpl.error = "Can't load reservations";
-                console.log(res.tpl.error);
-                return res.sendStatus(400);
-            }
+            if (err || !result)
+                error(res,"Can't load reservations",400,err);
 
             //console.log(result);
 

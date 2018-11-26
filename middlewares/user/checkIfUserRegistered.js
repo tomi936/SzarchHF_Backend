@@ -1,5 +1,6 @@
 var requireOption = require('../common').requireOption;
 const sanitize = require('mongo-sanitize');
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -9,22 +10,15 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
         console.log("checkIfUserRegistered");
         if(typeof req.body === "undefined" || Object.keys(req.body).length === 0 || typeof req.body.email === "undefined")
-        {
-            res.tpl.error = "User data is empty";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+            error(res,"User data is empty",400);
+
 
         UserModel.find({email: sanitize(req.body.email)}, function (err,result) {
            if(err)
-           {
-               res.tpl.error = "DB error";
-               console.log(res.tpl.error);
-               return res.sendStatus(500);
-           }
+               error(res,"DB error at checking registered Users",500,err);
 
            if(result.length>0)
-               return res.sendStatus(409);
+               error(res,"Already registered",409);
 
             return next();
         });

@@ -1,4 +1,5 @@
 var requireOption = require('../common').requireOption;
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -6,18 +7,12 @@ module.exports = function (objectrepository) {
     var ReservationModel = requireOption(objectrepository, 'reservationModel');
 
     return function (req, res, next) {
-        if (typeof res.tpl.reservation === "undefined" || res.tpl.reservation == null) {
-            res.tpl.error = "Missing reservation";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+        if (typeof res.tpl.reservation === "undefined" || res.tpl.reservation == null)
+            error(res,"Missing reservation",400);
 
         res.tpl.reservation.save(function (err) {
-            if (err) {
-                res.tpl.error = "Error during saving reservation to DB";
-                console.log(res.tpl.error);
-                return res.sendStatus(500);
-            }
+            if (err)
+                error(res,"Error during saving reservation to DB",500,err);
             return next();
         });
     };

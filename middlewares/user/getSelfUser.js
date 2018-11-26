@@ -1,5 +1,6 @@
 var requireOption = require('../common').requireOption;
 const sanitize = require('mongo-sanitize');
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -13,11 +14,7 @@ module.exports = function (objectrepository) {
         UserModel.findOne({_id:sanitize(req.user.id)}, function (err,result) {
             console.log(result);
             if(err || !result)
-            {
-                res.tpl.error = "Can't find user";
-                console.log(res.tpl.error);
-                return res.sendStatus(400);
-            }
+                error(res,"Can't find user",400,err);
 
             result = result.toObject();
             delete result.password;

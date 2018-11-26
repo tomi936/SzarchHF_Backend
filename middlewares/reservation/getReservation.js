@@ -1,5 +1,6 @@
 var requireOption = require('../common').requireOption;
 const sanitize = require('mongo-sanitize');
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -16,19 +17,12 @@ module.exports = function (objectrepository) {
             reservationId = req.params.reservationId;
 
 
-        if (!reservationId) {
-            res.tpl.error = "No reservationId";
-            console.log(res.tpl.error);
-            return res.sendStatus(400);
-        }
+        if (!reservationId)
+            error(res,"No reservationId",400);
 
         ReservationModel.findOne({_id: sanitize(reservationId)}, function (err, result) {
-            if (err) {
-                res.tpl.error = "DB error during finding reservation";
-                console.log(res.tpl.error);
-                return res.status(400).json(res.tpl.error);
-            }
-
+            if (err)
+                error(res,"DB error during finding reservation",500,err);
 
             res.tpl.reservation = result;
             return next();

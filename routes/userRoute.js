@@ -1,4 +1,4 @@
-var inverseAuthMW = require('../middlewares/generic/inverseAuth');
+
 var authMW = require('../middlewares/generic/Auth');
 var userLoginMW = require('../middlewares/user/userLogin');
 var registerUserMW = require('../middlewares/user/registerUser');
@@ -37,7 +37,7 @@ module.exports = function(app){
         checkIfUserRegisteredMW(objectRepository),
         registerUserMW(objectRepository),
         function (req,res,next) {
-            res.sendStatus(200);
+            return res.status(200).json();
         }
     );
 
@@ -47,7 +47,7 @@ module.exports = function(app){
         getUserMW(objectRepository),
         updateUserMW(objectRepository),
         function (req,res,next) {
-            res.sendStatus(200);
+            return res.status(200).json();
         }
     );
 

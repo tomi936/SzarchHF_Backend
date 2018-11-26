@@ -1,5 +1,6 @@
 var requireOption = require('../common').requireOption;
 const sanitize = require('mongo-sanitize');
+const error = require('../../helpers/errorHandler');
 
 
 module.exports = function (objectrepository) {
@@ -27,11 +28,7 @@ module.exports = function (objectrepository) {
 
         OrderModel.findOne({_id:sanitize(orderId)}, function (err, result) {
             if(err)
-            {
-                res.tpl.error = "DB error during finding order";
-                console.log(res.tpl.error);
-                return res.status(400).json(res.tpl.error);
-            }
+                error(res,"DB error during finding order",500,err);
 
             res.tpl.resObj={};
             if(result)
