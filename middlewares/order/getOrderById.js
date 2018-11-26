@@ -30,6 +30,7 @@ module.exports = function (objectrepository) {
             if(err)
                 return error(res,"DB error during finding order",500,err);
 
+            res.tpl.order = null;
             res.tpl.resObj={};
             if(result)
             {
