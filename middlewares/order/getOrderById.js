@@ -26,7 +26,7 @@ module.exports = function (objectrepository) {
             return res.sendStatus(400);*/
         }
 
-        OrderModel.findOne({_id:sanitize(orderId)}, function (err, result) {
+        OrderModel.findOne({_id:sanitize(orderId)}).populate('orderItems._menuItemId').exec(function (err, result) {
             if(err)
                 return error(res,"DB error during finding order",500,err);
 

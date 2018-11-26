@@ -8,7 +8,7 @@ module.exports = function (objectrepository) {
     var CarItemDto = requireOption(objectrepository, 'cartItemDto');
 
     return function (req, res, next) {
-        CartModel.findOne({_clientId:req.user.id}, function (err, result) {
+        CartModel.findOne({_clientId:req.user.id}).populate('orderItems._menuItemId').exec(function (err, result) {
             if(err)
                 return error(res,"DB error during loading cart",500,err);
 

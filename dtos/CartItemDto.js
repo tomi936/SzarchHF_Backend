@@ -41,6 +41,9 @@
       if (data.hasOwnProperty('amount')) {
         obj['amount'] = converter.convertToType(data['amount'], 'Number');
       }
+      if (data.hasOwnProperty('_menuItemId')&& data['_menuItemId'].hasOwnProperty('name') ) {
+        obj['name'] = converter.convertToType(data['_menuItemId']['name'], 'String');
+      }
     }
     return obj;
   };
@@ -53,6 +56,10 @@
    * @member {Number} amount
    */
   CarItemDto.prototype['amount'] = undefined;
+  /**
+   * @member {String} name
+   */
+  CarItemDto.prototype['name'] = undefined;
 
 
 

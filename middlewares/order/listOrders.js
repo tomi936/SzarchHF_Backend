@@ -18,7 +18,7 @@ module.exports = function (objectrepository) {
         else
             whereState={owner : req.user.id};
 
-        OrderModel.find(whereState).populate("owner").exec(function (err,result) {
+        OrderModel.find(whereState).populate("owner").populate('orderItems._menuItemId').exec(function (err,result) {
             if(err)
                 return error(res,"Can't load orders",500,err);
 

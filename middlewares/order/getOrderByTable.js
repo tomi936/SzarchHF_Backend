@@ -14,7 +14,7 @@ module.exports = function (objectrepository) {
         if(typeof req.params === "undefined" || typeof req.params.tableId === "undefined")
             return error(res,"No tableId",400);
 
-        OrderModel.findOne({_tableId:sanitize(req.params.tableId), status : OrderStatus.Open}, function (err, result) {
+        OrderModel.findOne({_tableId:sanitize(req.params.tableId), status : OrderStatus.Open}).populate('orderItems._menuItemId').exec( function (err, result) {
             if(err)
                 return error(res,"DB error during finding table",500,err);
 
