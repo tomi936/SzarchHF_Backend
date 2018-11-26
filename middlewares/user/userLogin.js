@@ -16,7 +16,7 @@ module.exports = function (objectrepository) {
         {
             res.tpl.error = "Login user data is empty";
             console.log(res.tpl.error);
-            res.sendStatus(400);
+            return res.sendStatus(400);
         }
 
         var loginUser = LoginDto.constructFromObject(req.body);
@@ -24,14 +24,14 @@ module.exports = function (objectrepository) {
         {
             res.tpl.error = "Login user data is missing";
             console.log(res.tpl.error);
-            res.sendStatus(400);
+            return res.sendStatus(400);
         }
 
         UserModel.findOne({ email: sanitize(loginUser.email)}, function (err, user) {
             console.log(err);
             console.log(user);
             if(err ||  user === null)
-                res.sendStatus(401);
+                return res.sendStatus(401);
 
             if (user && bcrypt.compareSync(loginUser.password, user.password)) {
                 //const {password, userWithoutPassword} = user.toObject();

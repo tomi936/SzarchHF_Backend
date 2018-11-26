@@ -13,7 +13,7 @@ module.exports = function (objectrepository) {
             {
                 res.tpl.error = "DB Error during getting User";
                 console.log(res.tpl.error);
-                res.sendStatus(400);
+                return res.sendStatus(400);
             }
 
             res.tpl.user = result;

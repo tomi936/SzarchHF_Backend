@@ -12,7 +12,7 @@ module.exports = function (objectrepository) {
         {
             res.tpl.error = "User data is empty";
             console.log(res.tpl.error);
-            res.sendStatus(400);
+            return res.sendStatus(400);
         }
 
         UserModel.find({email: sanitize(req.body.email)}, function (err,result) {
@@ -20,7 +20,7 @@ module.exports = function (objectrepository) {
            {
                res.tpl.error = "DB error";
                console.log(res.tpl.error);
-               return res.status(500).json(res.tpl.error);
+               return res.sendStatus(500);
            }
 
            if(result.length>0)

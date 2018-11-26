@@ -15,7 +15,7 @@ module.exports = function (objectrepository) {
         {
             res.tpl.error = "New user data is empty";
             console.log(res.tpl.error);
-            res.sendStatus(400);
+            return res.sendStatus(400);
         }
         var editedUser = ClientRegisterDto.constructFromObject(req.body);
 
@@ -26,7 +26,7 @@ module.exports = function (objectrepository) {
         {
             res.tpl.error = "Invalid user data";
             console.log(res.tpl.error);
-            res.status(400).json(res.tpl.error);
+            return res.sendStatus(400);
         }
 
         var newUser = UserModel();
@@ -45,7 +45,7 @@ module.exports = function (objectrepository) {
             {
                 res.tpl.error = "Error DB during saving user to DB";
                 console.log(res.tpl.error);
-                res.status(500).json(res.tpl.error);
+                return res.sendStatus(500);
             }
 
             return next();
