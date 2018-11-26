@@ -26,14 +26,12 @@ module.exports = function(app){
     };
     //Login
     app.route("/user/login").post(
-      inverseAuthMW(objectRepository),
       userLoginMW(objectRepository),
       responseJSON(objectRepository)
     );
 
     //Registration
     app.route("/user/register").post(
-        inverseAuthMW(objectRepository ),
         checkIfUserRegisteredMW(objectRepository),
         registerUserMW(objectRepository),
         function (req,res,next) {
