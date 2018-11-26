@@ -55,6 +55,9 @@
       if (data.hasOwnProperty('_tableId')) {
         obj['_tableId'] = converter.convertToType(data['_tableId'], 'String');
       }
+      if (data.hasOwnProperty('tableId')) {
+            obj['_tableId'] = converter.convertToType(data['tableId'], 'String');
+        }
       if (data.hasOwnProperty('type')) {
         obj['type'] = converter.convertToType(data['type'], 'String');
       }

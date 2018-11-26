@@ -15,7 +15,7 @@ module.exports = function (objectrepository) {
             return error(res,"body is empty",400);
         if (req.user.role == Role.Client && (typeof req.body.cart === "undefined" || typeof req.body.discount === "undefined"))
             return error(res,"Body is empty",400);
-        if (req.user.role == Role.Waiter && (typeof req.body.orderItems === "undefined" || typeof req.body._tableId === "undefined" || req.body._tableId == null))
+        if (req.user.role == Role.Waiter && (typeof req.body.orderItems === "undefined" || typeof req.body.tableId === "undefined" || req.body.tableId == null))
             return error(res,"Order data is empty",400);
         if (typeof res.tpl.menuItems === "undefined" )
             return error(res,"\"Missing menuItems",500);
@@ -75,11 +75,11 @@ module.exports = function (objectrepository) {
             if (typeof res.tpl.tables === "undefined" || res.tpl.tables == null || res.tpl.tables.length === 0)
                 return error(res,"Missing tables",500);
 
-            if(req.body._tableId != null)
+            if(req.body.tableId != null)
             {
                 if(res.tpl.tables.some(t=>t.id === req.body.tableId))
                     return error(res,"Wrong table Id",400);
-                var query = {$and:[{_tableId:sanitize(req.body._tableId)},{status:OrderStatus.Open}]};
+                var query = {$and:[{_tableId:sanitize(req.body.tableId)},{status:OrderStatus.Open}]};
                 if(Order._id != null)
                     query.$and.push({_id:{$ne:Order._id}});
                 var openOrder = await OrderModel.find(query).exec();
@@ -88,7 +88,7 @@ module.exports = function (objectrepository) {
             }
 
 
-            Order._tableId = sanitize(req.body._tableId);
+            Order._tableId = sanitize(req.body.tableId);
             Order.type = "Local";
             req.body.orderItems.forEach(function (item) {
                 var orderedItem = CartItemDto.constructFromObject(item);
