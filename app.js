@@ -54,7 +54,7 @@ app.use(function (req, res, next) {
         user= JSON.stringify(req.user);
     else
         user = "Unauthorized";
-    console.log("Request: " + req.path +" | User: " +user +"\n ->body:" + JSON.stringify(req.body) + " -> params" + JSON.stringify(req.params)
+    console.log("Request: "+req.method+" "  + req.path +" | User: " +user +"\n ->body:" + JSON.stringify(req.body) + " -> params" + JSON.stringify(req.params)
         + "   -> query" + JSON.stringify(req.query));
 
     return next();
